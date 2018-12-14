@@ -10,28 +10,32 @@ function canGame() {
 function reportOnGamepad() {
     var gp = navigator.getGamepads()[0];
     var html = "";
-    html += "id: " + gp.id + "<br/>";
+    html += `id: ${gp.id} <br/>`;
+    html += "Camera reset: ";
+    if (gp.buttons[0].pressed) html += " pressed";
+    html += "<br/>";
 
-    for (var i = 0; i < gp.buttons.length; i++) {
-        if (i == 6 || i == 7) {
-            html += "Button " + (i + 1) + ": ";
-            html += gp.buttons[i].value.toFixed(3);
-            html += "<br/>";
-        } else {
-            html += "Button " + (i + 1) + ": ";
-            if (gp.buttons[i].pressed) html += " pressed";
-            html += "<br/>";
-        }
-    }
+    html += `Forward: ${gp.buttons[6].value.toFixed(3)} <br/>`;
 
-    for (var i = 0; i < gp.axes.length; i += 2) {
-        html += "Stick " + (Math.ceil(i / 2) + 1) + ": " + gp.axes[i].toFixed(3) + " , " + gp.axes[i + 1].toFixed(3) + "<br/>";
-    }
+    html += `Brake/Reverse: ${gp.buttons[7].value.toFixed(3)} <br/>`;
+
+    html += `Turn: ${gp.axes[0].toFixed(3)}, ${gp.axes[1].toFixed(3)} <br/>`;
+
+    html += `Rotate Camera: ${gp.axes[2].toFixed(3)}, ${gp.axes[3].toFixed(3)} <br/>`;
 
     $("#gamepadDisplay").html(html);
 }
 
 $(document).ready(function () {
+
+    $(window).keypress(event => {
+        event.preventDefault();
+        const key = event.which;
+        console.log(key);
+        if(key == 119) {
+            
+        }
+    })
 
     if (canGame()) {
 
