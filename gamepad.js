@@ -7,24 +7,29 @@ function canGame() {
     return "getGamepads" in navigator;
 }
 
-function reportOnGamepad() {
-    var gp = navigator.getGamepads()[0];
-    var html = "";
-    html += `id: ${gp.id} <br/>`;
-    html += "Camera reset: ";
-    if (gp.buttons[0].pressed) html += " pressed";
-    html += "<br/>";
-
-    html += `Forward: ${gp.buttons[7].value.toFixed(3)} <br/>`;
-
-    html += `Brake/Reverse: ${gp.buttons[6].value.toFixed(3)} <br/>`;
-
-    html += `Turn: ${gp.axes[0].toFixed(3)}, ${gp.axes[1].toFixed(3)} <br/>`;
-
-    html += `Rotate Camera: ${gp.axes[2].toFixed(3)}, ${gp.axes[3].toFixed(3)} <br/>`;
-
-    $("#gamepadDisplay").html(html);
+function checkGamepad() {
+    return navigator.getGamepads()[0];
 }
+
+// function reportOnGamepad() {
+//     var gp = navigator.getGamepads()[0];
+//     var html = "";
+//     html += `id: ${gp.id} <br/>`;
+//     html += "Camera reset: ";
+//     if (gp.buttons[0].pressed) html += " pressed";
+//     html += "<br/>";
+
+//     html += `Forward: ${gp.buttons[7].value.toFixed(3)} <br/>`;
+
+//     html += `Brake/Reverse: ${gp.buttons[6].value.toFixed(3)} <br/>`;
+
+//     html += `Turn: ${gp.axes[0].toFixed(3)}, ${gp.axes[1].toFixed(3)} <br/>`;
+
+//     html += `Rotate Camera: ${gp.axes[2].toFixed(3)}, ${gp.axes[3].toFixed(3)} <br/>`;
+
+//     $("#gamepadDisplay").html(html);
+// }
+
 
 $(document).ready(function () {
 
@@ -34,14 +39,18 @@ $(document).ready(function () {
     let cameraRotation = 0; // -1 for left to +1 for right
 
     function output(key) {
-        console.clear();
-        console.log(`forward = ${forward}`);
-        console.log(`turn = ${turn}`);
-        console.log(`reverse = ${reverse}`);
-        console.log(`key == ${key}`);
+        // console.clear();
+        $("#forward").text(`forward = ${forward}`);
+        $("#reverse").text(`reverse = ${reverse}`);
+        $("#turn").text(`turn = ${turn}`);
+        $("#cameraRotation").text(`camera rotation = ${cameraRotation}`);
+        // console.log(`forward = ${forward}`);
+        // console.log(`turn = ${turn}`);
+        // console.log(`reverse = ${reverse}`);
+        // console.log(`key == ${key}`);
     }
 
-    const keys = [ '', 65, 87, 68, 83, 82 ];
+    const keys = [ 65, 87, 68, 83, 82 ];
 
     $(window).keydown(event => {
         const key = event.which;
@@ -68,7 +77,6 @@ $(document).ready(function () {
                     break;
             }
         }
-        
         output(key);
     });
 
@@ -96,6 +104,40 @@ $(document).ready(function () {
     });
 
     if (canGame()) {
+
+        function reportOnGamepad() {
+            const { buttons, axes } = navigator.getGamepads()[0];
+            const r2 = buttons[7];
+            const l2 = buttons[6];
+            const leftStick = axes[0];
+            const rightStick = axes[2];
+
+            if (r2.value > 0.1 && l2.value > 0.1) {
+                forward = 0;
+                reverse = 0;
+            } else {
+                if (r2.value > 0.1) {
+                    forward = r2.value;
+                    reverse = 0;
+                } 
+                if (l2.value > 0.1) {
+                    reverse = l2.value;
+                    forward = 0;
+                }
+            }
+            if (leftStick > 0.1 || leftStick < -0.1) {
+                turn = leftStick;
+            } else {
+                turn = 0;
+            }
+            if (rightStick > 0.1 || rightStick < -0.1) {
+                cameraRotation = rightStick;
+            } else {
+                cameraRotation = 0;
+            }
+            const key = 'gamepad';
+            output(key);
+        }
 
         var prompt = "To begin using your gamepad, connect it and press any button!";
         $("#gamepadPrompt").text(prompt);
