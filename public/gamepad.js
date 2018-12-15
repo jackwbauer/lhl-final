@@ -13,14 +13,15 @@ function checkGamepad() {
 
 $(document).ready(function () {
 
-    let forward = 0; // 0.0 for off to 1.0 for on
-    let reverse = 0; // 0.0 for off to 1.0 for on
+    const webSocket = new WebSocket('ws://localhost:3000');
+    console.log(webSocket);
+
+    let direction = 0; // -1 for reverse to +1 for forward
     let turn = 0; // -1 for left to +1 for right
     let cameraRotation = 0; // -1 for left to +1 for right
 
     function output(key) {
-        $("#forward").text(`forward = ${forward}`);
-        $("#reverse").text(`reverse = ${reverse}`);
+        $("#direction").text(`direction = ${direction}`);
         $("#turn").text(`turn = ${turn}`);
         $("#cameraRotation").text(`camera rotation = ${cameraRotation}`);
     }
@@ -34,15 +35,13 @@ $(document).ready(function () {
             event.preventDefault();
             switch (key) {
                 case 87: // w
-                    forward = 1;
-                    reverse = 0;
+                    direction = 1;
                     break;
                 case 68: // d
                     turn = 1; // right
                     break;
                 case 83: // s
-                    forward = 0;
-                    reverse = 1;
+                    direction = -1;
                     break;
                 case 82: // r
                     cameraRotation = 0;
@@ -62,7 +61,7 @@ $(document).ready(function () {
             event.preventDefault();
             switch (key) {
                 case 87: // w
-                    forward = 0;
+                    direction = 0;
                     break;
                 case 65: // a
                     turn = 0; // left
@@ -71,7 +70,7 @@ $(document).ready(function () {
                     turn = 0; // right
                     break;
                 case 83: // s
-                    reverse = 0;
+                    direction = 0;
                     break;
             }
         }
@@ -87,26 +86,15 @@ $(document).ready(function () {
             const leftStick = axes[0];
             const rightStick = axes[2];
 
-            if (r2.value > 0.1 && l2.value > 0.1) {
-                forward = 0;
-                reverse = 0;
-            } else {
-                if (r2.value > 0.1) {
-                    forward = r2.value;
-                    reverse = 0;
-                } 
-                if (l2.value > 0.1) {
-                    reverse = l2.value;
-                    forward = 0;
-                }
-            }
+            direction = (r2.value - l2.value).toFixed(1);
+            
             if (leftStick > 0.1 || leftStick < -0.1) {
-                turn = leftStick;
+                turn = leftStick.toFixed(1);
             } else {
                 turn = 0;
             }
             if (rightStick > 0.1 || rightStick < -0.1) {
-                cameraRotation = rightStick;
+                cameraRotation = rightStick.toFixed(1);
             } else {
                 cameraRotation = 0;
             }
