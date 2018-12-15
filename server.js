@@ -23,4 +23,9 @@ wss.on('connection', (ws) => {
         console.log('Client disconnected');
     });
 
+    ws.on('message', (data) => {
+        const message = JSON.parse(data);
+        console.log(message);
+    });
+
 });

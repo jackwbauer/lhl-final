@@ -16,6 +16,15 @@ $(document).ready(function () {
     const webSocket = new WebSocket('ws://localhost:3000');
     console.log(webSocket);
 
+    function sendInput() {
+        const input = {
+            direction,
+            turn,
+            cameraRotation
+        };
+        webSocket.send(JSON.stringify(input));
+    }
+
     let direction = 0; // -1 for reverse to +1 for forward
     let turn = 0; // -1 for left to +1 for right
     let cameraRotation = 0; // -1 for left to +1 for right
@@ -24,6 +33,7 @@ $(document).ready(function () {
         $("#direction").text(`direction = ${direction}`);
         $("#turn").text(`turn = ${turn}`);
         $("#cameraRotation").text(`camera rotation = ${cameraRotation}`);
+        sendInput();
     }
 
     const keys = [ 65, 87, 68, 83, 82 ];
