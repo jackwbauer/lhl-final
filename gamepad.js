@@ -11,26 +11,6 @@ function checkGamepad() {
     return navigator.getGamepads()[0];
 }
 
-// function reportOnGamepad() {
-//     var gp = navigator.getGamepads()[0];
-//     var html = "";
-//     html += `id: ${gp.id} <br/>`;
-//     html += "Camera reset: ";
-//     if (gp.buttons[0].pressed) html += " pressed";
-//     html += "<br/>";
-
-//     html += `Forward: ${gp.buttons[7].value.toFixed(3)} <br/>`;
-
-//     html += `Brake/Reverse: ${gp.buttons[6].value.toFixed(3)} <br/>`;
-
-//     html += `Turn: ${gp.axes[0].toFixed(3)}, ${gp.axes[1].toFixed(3)} <br/>`;
-
-//     html += `Rotate Camera: ${gp.axes[2].toFixed(3)}, ${gp.axes[3].toFixed(3)} <br/>`;
-
-//     $("#gamepadDisplay").html(html);
-// }
-
-
 $(document).ready(function () {
 
     let forward = 0; // 0.0 for off to 1.0 for on
@@ -39,15 +19,10 @@ $(document).ready(function () {
     let cameraRotation = 0; // -1 for left to +1 for right
 
     function output(key) {
-        // console.clear();
         $("#forward").text(`forward = ${forward}`);
         $("#reverse").text(`reverse = ${reverse}`);
         $("#turn").text(`turn = ${turn}`);
         $("#cameraRotation").text(`camera rotation = ${cameraRotation}`);
-        // console.log(`forward = ${forward}`);
-        // console.log(`turn = ${turn}`);
-        // console.log(`reverse = ${reverse}`);
-        // console.log(`key == ${key}`);
     }
 
     const keys = [ 65, 87, 68, 83, 82 ];
