@@ -64,6 +64,8 @@ $(document).ready(function () {
 
     $(window).keydown(event => {
         const key = event.which;
+
+        hasGP = false;
         // console.log(`key down == ${key}`);
         if (keys.includes(key)) {
             event.preventDefault();
