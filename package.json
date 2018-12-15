@@ -1,0 +1,28 @@
+{
+  "name": "lhl-final",
+  "version": "1.0.0",
+  "description": "An app for controlling an RC car remotely using websockets and raspberry pi",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jackwbauer/lhl-final.git"
+  },
+  "keywords": [
+    "raspberry",
+    "pi",
+    "websocket",
+    "fun"
+  ],
+  "author": "Jack Bauer <bauer.jackw@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jackwbauer/lhl-final/issues"
+  },
+  "homepage": "https://github.com/jackwbauer/lhl-final#readme",
+  "dependencies": {
+    "express": "^4.16.4"
+  }
+}
