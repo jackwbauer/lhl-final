@@ -41,37 +41,57 @@ $(document).ready(function () {
         $("#turn").text(`turn = ${turn}`);
         $("#cameraRotation").text(`camera rotation = ${cameraRotation}`);
         sendInput();
+        // logOutput();
     }
 
-    const keys = [ 65, 87, 68, 83, 82, 37, 39 ];
+    function logOutput() {
+        console.clear();
+        console.log(`direction: ${direction}`);
+        console.log(`turn: ${turn}`);
+        console.log('keydown: ', keydown);
+    }
+
+    const keys = [65, 87, 68, 83, 82, 37, 39];
+    let keydown = {
+        '87': false, // w
+        '83': false, // s
+        '65': false, // a
+        '68': false, // d
+        '37': false, // left arrow
+        '39': false, // right arrow
+        '82': false, // r
+    }
 
     $(window).keydown(event => {
         const key = event.which;
         // console.log(`key down == ${key}`);
         if (keys.includes(key)) {
             event.preventDefault();
-            switch (key) {
-                case 87: // w
-                    direction = 1;
-                    break;
-                case 68: // d
-                    turn = 1; // right
-                    break;
-                case 83: // s
-                    direction = -1;
-                    break;
-                case 82: // r
-                    cameraRotation = 0;
-                    break;
-                case 65: // a
-                    turn = -1; // left
-                    break;
-                case 37: // left arrow
-                    cameraRotation = -1;
-                    break;
-                case 39: // right arrow
-                    cameraRotation = 1;
-                    break;
+            if (!keydown[key]) {
+                keydown[key] = true;
+                switch (key) {
+                    case 87: // w
+                        direction += 1;
+                        break;
+                    case 68: // d
+                        turn += 1; // right
+                        break;
+                    case 83: // s
+                        direction += -1;
+                        break;
+                    case 82: // r
+                        cameraRotation = 0;
+                        break;
+                    case 65: // a
+                        turn += -1; // left
+                        break;
+                    case 37: // left arrow
+                        cameraRotation = -1;
+                        break;
+                    case 39: // right arrow
+                        cameraRotation += 1;
+                        break;
+                }
             }
         }
         output(key);
@@ -79,27 +99,27 @@ $(document).ready(function () {
 
     $(window).keyup(event => {
         const key = event.which;
-        // console.log(`key = ${key}`);
         if (keys.includes(key)) {
             event.preventDefault();
+            keydown[key] = false;
             switch (key) {
                 case 87: // w
-                    direction = 0;
+                    direction += -1;
                     break;
                 case 65: // a
-                    turn = 0; // left
+                    turn += 1; // left
                     break;
                 case 68: // d
-                    turn = 0; // right
+                    turn += -1; // right
                     break;
                 case 83: // s
-                    direction = 0;
+                    direction += 1;
                     break;
                 case 37: // left arrow
-                    cameraRotation = 0;
+                    cameraRotation += 1;
                     break;
                 case 39: // right arrow
-                    cameraRotation = 0;
+                    cameraRotation += -1;
                     break;
             }
         }
@@ -116,7 +136,7 @@ $(document).ready(function () {
             const rightStick = axes[2];
 
             direction = (r2.value - l2.value).toFixed(1);
-            
+
             if (leftStick > 0.1 || leftStick < -0.1) {
                 turn = leftStick.toFixed(1);
             } else {
