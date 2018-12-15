@@ -13,7 +13,8 @@ function checkGamepad() {
 
 $(document).ready(function () {
 
-    const webSocket = new WebSocket('ws://localhost');
+    const host = location.origin.replace(/^http/, 'ws');
+    const webSocket = new WebSocket(host);
     console.log(webSocket);
 
     function sendInput() {
