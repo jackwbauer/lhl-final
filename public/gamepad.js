@@ -14,7 +14,7 @@ function checkGamepad() {
 $(document).ready(function () {
 
     const host = location.origin.replace(/^http/, 'ws');
-    const webSocket = new WebSocket(host);
+    let webSocket = new WebSocket(host);
     // console.log(webSocket);
 
     webSocket.onclose = () => {
