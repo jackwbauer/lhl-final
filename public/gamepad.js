@@ -37,7 +37,7 @@ $(document).ready(function () {
         sendInput();
     }
 
-    const keys = [ 65, 87, 68, 83, 82 ];
+    const keys = [ 65, 87, 68, 83, 82, 37, 39 ];
 
     $(window).keydown(event => {
         const key = event.which;
@@ -59,6 +59,12 @@ $(document).ready(function () {
                     break;
                 case 65: // a
                     turn = -1; // left
+                    break;
+                case 37: // left arrow
+                    cameraRotation = -1;
+                    break;
+                case 39: // right arrow
+                    cameraRotation = 1;
                     break;
             }
         }
@@ -82,6 +88,12 @@ $(document).ready(function () {
                     break;
                 case 83: // s
                     direction = 0;
+                    break;
+                case 37: // left arrow
+                    cameraRotation = 0;
+                    break;
+                case 39: // right arrow
+                    cameraRotation = 0;
                     break;
             }
         }
