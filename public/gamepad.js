@@ -15,7 +15,13 @@ $(document).ready(function () {
 
     const host = location.origin.replace(/^http/, 'ws');
     const webSocket = new WebSocket(host);
-    console.log(webSocket);
+    // console.log(webSocket);
+
+    webSocket.onclose = () => {
+        setTimeout(() => {
+            webSocket = new WebSocket(host);
+        }, 500);
+    };
 
     function sendInput() {
         const input = {
