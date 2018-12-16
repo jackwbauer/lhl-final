@@ -1,6 +1,7 @@
 // https://w3c.github.io/gamepad/
 
 var hasGP = false; // has game pad
+var useGP = false; // false uses keyboard input, true uses controller input
 var repGP; // report game pad (what game pad is doing)
 
 function canGame() {
@@ -62,95 +63,111 @@ $(document).ready(function () {
         '82': false, // r
     }
 
-    $(window).keydown(event => {
-        const key = event.which;
+    $('#keyboardButton').addClass('active');
 
-        hasGP = false;
-        // console.log(`key down == ${key}`);
-        if (keys.includes(key)) {
-            event.preventDefault();
-            if (!keydown[key]) {
-                keydown[key] = true;
-                switch (key) {
-                    case 87: // w
-                        direction += 1;
-                        break;
-                    case 68: // d
-                        turn += 1; // right
-                        break;
-                    case 83: // s
-                        direction += -1;
-                        break;
-                    case 82: // r
-                        cameraRotation = 0;
-                        break;
-                    case 65: // a
-                        turn += -1; // left
-                        break;
-                    case 37: // left arrow
-                        cameraRotation = -1;
-                        break;
-                    case 39: // right arrow
-                        cameraRotation += 1;
-                        break;
+    $('#keyboardButton').click(event => {
+        useGP = false;
+    });
+
+    $('#gamepadButton').click(event => {
+        useGP = true;
+    });
+
+    $(window).keydown(event => {
+        if (!useGP) {
+            const key = event.which;
+
+            if (keys.includes(key)) {
+                event.preventDefault();
+                if (!keydown[key]) {
+                    keydown[key] = true;
+                    switch (key) {
+                        case 87: // w
+                            direction += 1;
+                            break;
+                        case 68: // d
+                            turn += 1; // right
+                            break;
+                        case 83: // s
+                            direction += -1;
+                            break;
+                        case 82: // r
+                            cameraRotation = 0;
+                            break;
+                        case 65: // a
+                            turn += -1; // left
+                            break;
+                        case 37: // left arrow
+                            cameraRotation += -1;
+                            break;
+                        case 39: // right arrow
+                            cameraRotation += 1;
+                            break;
+                    }
                 }
             }
+            output(key);
         }
-        output(key);
+
     });
 
     $(window).keyup(event => {
-        const key = event.which;
-        if (keys.includes(key)) {
-            event.preventDefault();
-            keydown[key] = false;
-            switch (key) {
-                case 87: // w
-                    direction += -1;
-                    break;
-                case 65: // a
-                    turn += 1; // left
-                    break;
-                case 68: // d
-                    turn += -1; // right
-                    break;
-                case 83: // s
-                    direction += 1;
-                    break;
-                case 37: // left arrow
-                    cameraRotation += 1;
-                    break;
-                case 39: // right arrow
-                    cameraRotation += -1;
-                    break;
+        if (!useGP) {
+            const key = event.which;
+            if (keys.includes(key)) {
+                event.preventDefault();
+                keydown[key] = false;
+                switch (key) {
+                    case 87: // w
+                        direction += -1;
+                        break;
+                    case 65: // a
+                        turn += 1; // left
+                        break;
+                    case 68: // d
+                        turn += -1; // right
+                        break;
+                    case 83: // s
+                        direction += 1;
+                        break;
+                    case 37: // left arrow
+                        cameraRotation += 1;
+                        break;
+                    case 39: // right arrow
+                        cameraRotation += -1;
+                        break;
+                }
             }
+
+            output(key);
         }
-        output(key);
     });
 
     if (canGame()) {
 
         function reportOnGamepad() {
-            const { buttons, axes } = navigator.getGamepads()[0];
-            const r2 = buttons[7];
-            const l2 = buttons[6];
-            const leftStick = axes[0];
-            const rightStick = axes[2];
+            if (useGP) {
+                const { buttons, axes } = navigator.getGamepads()[0];
+                const r2 = buttons[7];
+                const l2 = buttons[6];
+                const leftStick = axes[0];
+                const rightStick = axes[2];
 
-            direction = (r2.value - l2.value).toFixed(1);
+                direction = (r2.value - l2.value).toFixed(1);
 
-            if (leftStick > 0.1 || leftStick < -0.1) {
-                turn = leftStick.toFixed(1);
-            } else {
-                turn = 0;
+                if (leftStick > 0.1 || leftStick < -0.1) {
+                    turn = leftStick.toFixed(1);
+                } else {
+                    turn = 0;
+                }
+                if (rightStick > 0.1 || rightStick < -0.1) {
+                    cameraRotation = rightStick.toFixed(1);
+                } else {
+                    cameraRotation = 0;
+                }
+                const key = 'gamepad';
+                output(key);
             }
-            if (rightStick > 0.1 || rightStick < -0.1) {
-                cameraRotation = rightStick.toFixed(1);
-            } else {
-                cameraRotation = 0;
-            }
-            const key = 'gamepad';
-            output(key);
         }
 
         var prompt = "To begin using your gamepad, connect it and press any button!";
