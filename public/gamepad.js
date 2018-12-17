@@ -63,13 +63,19 @@ $(document).ready(function () {
         '82': false, // r
     }
 
-    $('#keyboardButton').addClass('active');
+    const $keyboardButton = $('#keyboardButton');
+    const $gamepadButton = $('#gamepadButton');
+    $keyboardButton.addClass('active');
 
-    $('#keyboardButton').click(event => {
+    $keyboardButton.click(event => {
+        $keyboardButton.addClass('active');
+        $gamepadButton.removeClass('active');
         useGP = false;
     });
 
-    $('#gamepadButton').click(event => {
+    $gamepadButton.click(event => {
+        $keyboardButton.removeClass('active');
+        $gamepadButton.addClass('active');
         useGP = true;
     });
 
