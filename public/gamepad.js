@@ -33,11 +33,18 @@ $(document).ready(function () {
         webSocket.send(JSON.stringify(input));
     }
 
+    function resetInput() {
+        direction = 0;
+        turn = 0;
+        cameraRotation = 0;
+        output();
+    }
+
     let direction = 0; // -1 for reverse to +1 for forward
     let turn = 0; // -1 for left to +1 for right
     let cameraRotation = 0; // -1 for left to +1 for right
 
-    function output(key) {
+    function output() {
         $("#direction").text(`direction = ${direction}`);
         $("#turn").text(`turn = ${turn}`);
         $("#cameraRotation").text(`camera rotation = ${cameraRotation}`);
@@ -68,12 +75,14 @@ $(document).ready(function () {
     $keyboardButton.addClass('active');
 
     $keyboardButton.click(event => {
+        resetInput();
         $keyboardButton.addClass('active');
         $gamepadButton.removeClass('active');
         useGP = false;
     });
 
     $gamepadButton.click(event => {
+        resetInput();
         $keyboardButton.removeClass('active');
         $gamepadButton.addClass('active');
         useGP = true;
@@ -112,7 +121,7 @@ $(document).ready(function () {
                     }
                 }
             }
-            output(key);
+            output();
         }
 
     });
@@ -145,7 +154,7 @@ $(document).ready(function () {
                 }
             }
 
-            output(key);
+            output();
         }
     });
 
@@ -172,7 +181,7 @@ $(document).ready(function () {
                     cameraRotation = 0;
                 }
                 const key = 'gamepad';
-                output(key);
+                output();
             }
         }
 
