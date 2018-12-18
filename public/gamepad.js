@@ -114,10 +114,10 @@ $(document).ready(function () {
                             break;
                     }
                 }
-            }
-            output();
-        }
 
+                output();
+            }
+        }
     });
 
     $(window).keyup(event => {
@@ -146,9 +146,9 @@ $(document).ready(function () {
                         cameraRotation += -1;
                         break;
                 }
-            }
 
-            output();
+                output();
+            }
         }
     });
 
