@@ -26,7 +26,7 @@ $(document).ready(function () {
 
     function sendInput() {
         const input = {
-            direction,
+            direction: parseFloat(direction),
             turn,
             cameraRotation
         };
@@ -180,7 +180,6 @@ $(document).ready(function () {
                 } else {
                     cameraRotation = 0;
                 }
-                const key = 'gamepad';
                 output();
             }
         }
