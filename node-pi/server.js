@@ -1,6 +1,8 @@
 const WebSocket = require('ws');
 const GPIO = require('onoff').Gpio;
-const LED = new GPIO(31, 'out');
+const LED_red = new GPIO(13, 'out');
+const LED_green = new GPIO(6, 'out');
+
 
 const host = 'ws://rpi-lhl-final.herokuapp.com/';
 let ws = new WebSocket(host);
@@ -17,6 +19,16 @@ ws.on('close', () => {
 
 ws.on('message', (data) => {
     console.log(JSON.parse(data));
+    let direction = data.direction;
+    if(direction > 0) {
+        LED_red.writeSync(0);
+        LED_green.writeSync(1);
+    } else if (direction < 0) {
+        LED_green.writeSync(0);
+        LED_red.writeSync(1);
+    } else {
+        LED_green.writeSync(0);
+        LED_red.writeSync(0);
+    }
 });
 
-LED.writeSync(1);
