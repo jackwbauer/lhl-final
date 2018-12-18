@@ -1,9 +1,10 @@
 const PiCamera = require('pi-camera');
 const camera = new PiCamera({
-    mode: 'photo',
-    output: `${ __dirname }/test.jgp`,
+    mode: 'video',
+    output: `${ __dirname }/videos/test.h264`,
     width: 1920,
     height: 1080,
+    timeout: 3000,
     nopreview: false
 });
 
