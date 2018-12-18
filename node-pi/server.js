@@ -1,36 +1,24 @@
-const WebSocket = require('ws');
 const camera = require('./camera');
-const GPIO = require('onoff').Gpio;
+// const GPIO = require('onoff').Gpio;
 // const LED_red = new GPIO(13, 'out');
 // const LED_green = new GPIO(6, 'out');
 // const LED_blur = new GPIO(5, 'out');
-console.log(camera);
-camera.record()
-    .then((result) => {
-        console.log('Photo was taken')
-    })
-    .catch((error) => {
-        console.error(error);
-    });
+const socket = require('socket.io-client')('http://localhost:3000');
 
-const host = 'ws://rpi-lhl-final.herokuapp.com/';
-let ws = new WebSocket(host);
+socket.on('connect', () => {
+    console.log('Connected web server');
+})
 
-ws.on('open', () => {
-    console.log('connected to websocket server');
-});
+socket.on('disconnect', () => {
+    console.log('Disconnected from web server');
+})
 
-ws.on('close', () => {
-    setTimeout(() => {
-        ws = new WebSocket(host);
-    }, 500);
-});
-
-ws.on('message', (data) => {
-    // console.log(JSON.parse(data));
-    const controls = JSON.parse(data);
-    let direction = controls.direction;
-    console.log(direction);
+socket.on('controlsOutput', (data) => {
+    console.log('Received controls');
+    console.log(data);
+    // const controls = JSON.parse(data);
+    // let direction = controls.direction;
+    //console.log(direction);
     // if (direction > 0) {
     //     LED_red.writeSync(0);
     //     LED_blur.writeSync(0);
@@ -44,5 +32,4 @@ ws.on('message', (data) => {
     //     LED_red.writeSync(0);
     //     LED_blur.writeSync(1);
     // }
-});
-
+})

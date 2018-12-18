@@ -23,7 +23,7 @@ io.on('connection', (socket) => {
 
     socket.on('controlsInput', (data) => {
         console.log(data);
-        socket.emit('controlsOutput', data);
+        socket.broadcast.emit('controlsOutput', data);
         console.log('Sending controls to pi');
     })
 })
