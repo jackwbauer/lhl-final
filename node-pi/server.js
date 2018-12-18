@@ -12,7 +12,7 @@ camera.record()
     .catch((error) => {
         console.error(error);
     });
-    
+
 const host = 'ws://rpi-lhl-final.herokuapp.com/';
 let ws = new WebSocket(host);
 

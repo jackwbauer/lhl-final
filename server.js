@@ -1,37 +1,29 @@
 const express = require('express');
-const WebSocket = require('ws');
-
 const app = express();
-const PORT = process.env.PORT || 3000;
+const server = require('http').Server(app);
+const io = require('socket.io')(server);
 
-const server = express()
-    .use(express.static('public'))
-    .listen(PORT, () => {
-        console.log(`websocket server listening on port ${PORT}`);
-    });
+const port = process.env.PORT || 3000;
 
-const wss = new WebSocket.Server({ server });
+app.use(express.static('public'));
+
+server.listen(port, () => {
+    console.log(`socket.io server listening on port ${port}`);
+});
 
 app.get('/', (request, response) => {
     response.redirect('./public/index.html');
 });
 
-wss.on('connection', (ws) => {
+io.on('connection', (socket) => {
     console.log('Connection established');
-
-    ws.on('close', () => {
+    socket.on('disconnect', () => {
         console.log('Client disconnected');
-    });
+    })
 
-    ws.on('message', (data) => {
-        const message = JSON.parse(data);
-        console.log(message);
-        wss.clients.forEach((client) => {
-            if (client.readyState === WebSocket.OPEN) {
-                client.send(data);
-                console.log('sending message to clients');
-            }
-        });
-    });
-
-});
+    socket.on('controlsInput', (data) => {
+        console.log(data);
+        socket.emit('controlsOutput', data);
+        console.log('Sending controls to pi');
+    })
+})

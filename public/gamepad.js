@@ -15,14 +15,8 @@ function checkGamepad() {
 $(document).ready(function () {
 
     const host = location.origin.replace(/^http/, 'ws');
-    let webSocket = new WebSocket(host);
-    // console.log(webSocket);
 
-    webSocket.onclose = () => {
-        setTimeout(() => {
-            webSocket = new WebSocket(host);
-        }, 500);
-    };
+    const socket = io(host);
 
     function sendInput() {
         const input = {
@@ -30,7 +24,7 @@ $(document).ready(function () {
             turn,
             cameraRotation
         };
-        webSocket.send(JSON.stringify(input));
+        socket.emit('controlsInput', input);
     }
 
     function resetInput() {
