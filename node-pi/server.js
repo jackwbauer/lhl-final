@@ -3,7 +3,9 @@ const camera = require('./camera');
 // const LED_red = new GPIO(13, 'out');
 // const LED_green = new GPIO(6, 'out');
 // const LED_blur = new GPIO(5, 'out');
-const socket = require('socket.io-client')('rpi-lhl-final.herokuapp.com');
+
+const socket = require('socket.io-client')('ws://rpi-lhl-final.herokuapp.com');
+
 
 socket.on('connect', () => {
     console.log('Connected web server');
