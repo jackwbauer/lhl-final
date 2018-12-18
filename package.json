@@ -25,6 +25,7 @@
   "dependencies": {
     "express": "^4.16.4",
     "onoff": "^3.2.2",
+    "pi-camera": "^1.2.1",
     "ws": "^6.1.2"
   }
 }

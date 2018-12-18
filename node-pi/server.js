@@ -1,9 +1,18 @@
 const WebSocket = require('ws');
+const camera = require('camera');
 const GPIO = require('onoff').Gpio;
-const LED_red = new GPIO(13, 'out');
-const LED_green = new GPIO(6, 'out');
-const LED_blur = new GPIO(5, 'out');
+// const LED_red = new GPIO(13, 'out');
+// const LED_green = new GPIO(6, 'out');
+// const LED_blur = new GPIO(5, 'out');
 
+camera.snap()
+    .then((result) => {
+        console.log('Photo was taken')
+    })
+    .catch((error) => {
+        console.error(error);
+    });
+    
 const host = 'ws://rpi-lhl-final.herokuapp.com/';
 let ws = new WebSocket(host);
 
@@ -22,18 +31,18 @@ ws.on('message', (data) => {
     const controls = JSON.parse(data);
     let direction = controls.direction;
     console.log(direction);
-    if (direction > 0) {
-        LED_red.writeSync(0);
-        LED_blur.writeSync(0);
-        LED_green.writeSync(1);
-    } else if (direction < 0) {
-        LED_green.writeSync(0);
-        LED_blur.writeSync(0);
-        LED_red.writeSync(1);
-    } else {
-        LED_green.writeSync(0);
-        LED_red.writeSync(0);
-        LED_blur.writeSync(1);
-    }
+    // if (direction > 0) {
+    //     LED_red.writeSync(0);
+    //     LED_blur.writeSync(0);
+    //     LED_green.writeSync(1);
+    // } else if (direction < 0) {
+    //     LED_green.writeSync(0);
+    //     LED_blur.writeSync(0);
+    //     LED_red.writeSync(1);
+    // } else {
+    //     LED_green.writeSync(0);
+    //     LED_red.writeSync(0);
+    //     LED_blur.writeSync(1);
+    // }
 });
 
