@@ -24,6 +24,7 @@
   "homepage": "https://github.com/jackwbauer/lhl-final#readme",
   "dependencies": {
     "express": "^4.16.4",
+    "onoff": "^3.2.2",
     "ws": "^6.1.2"
   }
 }
