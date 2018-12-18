@@ -10,16 +10,6 @@ const server = express()
         console.log(`websocket server listening on port ${PORT}`);
     });
 
-function sendMessage(messageObj) {
-    messageObj.id = uuidv4();
-    wss.clients.forEach((client) => {
-        if (client.readyState === WebSocket.OPEN) {
-            client.send(JSON.stringify(messageObj));
-            console.log('sending message to client(s)');
-        }
-    });
-}
-
 const wss = new WebSocket.Server({ server });
 
 app.get('/', (request, response) => {
@@ -36,7 +26,7 @@ wss.on('connection', (ws) => {
     ws.on('message', (data) => {
         const message = JSON.parse(data);
         console.log(message);
-        sendMessage(message);
+        ws.send('worked');
     });
 
 });
