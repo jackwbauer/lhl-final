@@ -18,22 +18,22 @@ ws.on('close', () => {
 });
 
 ws.on('message', (data) => {
-   // console.log(JSON.parse(data));
-  const controls = JSON.parse(data);  
-  let direction = controls.direction;
-  console.log(direction);
-    if(direction > 0) {
+    // console.log(JSON.parse(data));
+    const controls = JSON.parse(data);
+    let direction = controls.direction;
+    console.log(direction);
+    if (direction > 0) {
         LED_red.writeSync(0);
-      LED_blur.writeSync(1);
+        LED_blur.writeSync(0);
         LED_green.writeSync(1);
     } else if (direction < 0) {
         LED_green.writeSync(0);
-      LED_blur.writeSync(0);
+        LED_blur.writeSync(0);
         LED_red.writeSync(1);
     } else {
         LED_green.writeSync(0);
         LED_red.writeSync(0);
-      LED_blur.writeSync(1);
+        LED_blur.writeSync(1);
     }
 });
 
