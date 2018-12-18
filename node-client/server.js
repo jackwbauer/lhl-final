@@ -14,6 +14,5 @@ ws.on('close', () => {
 });
 
 ws.on('message', (data) => {
-    // console.log(JSON.parse(data));
-    console.log('I got a message');
+    console.log(JSON.parse(data));
 });
