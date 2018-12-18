@@ -1,10 +1,10 @@
 const WebSocket = require('ws');
-const camera = require('camera');
+const camera = require('./camera');
 const GPIO = require('onoff').Gpio;
 // const LED_red = new GPIO(13, 'out');
 // const LED_green = new GPIO(6, 'out');
 // const LED_blur = new GPIO(5, 'out');
-
+console.log(camera);
 camera.snap()
     .then((result) => {
         console.log('Photo was taken')

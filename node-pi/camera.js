@@ -7,4 +7,5 @@ const camera = new PiCamera({
     nopreview: false
 });
 
-modules.export = camera;
+//camera.snap();
+module.exports = camera;
