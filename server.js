@@ -29,6 +29,7 @@ io.on('connection', (socket) => {
     })
 
     let outgoingStream = ss.createStream();
+    ss(socket).emit('videoStreamToBrowser', outgoingStream);
 
     ss(socket).on('videoStream', (stream, data) => {
         console.log('Receiving video stream');
