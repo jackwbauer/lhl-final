@@ -26,4 +26,9 @@ io.on('connection', (socket) => {
         socket.broadcast.emit('controlsOutput', data);
         console.log('Sending controls to pi');
     })
+
+    socket.on('videoStream', (data) => {
+        console.log('Receiving video stream');
+        console.log(data);
+    })
 })
