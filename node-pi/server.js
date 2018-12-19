@@ -8,7 +8,7 @@ const spawn = require('child_process').spawn;
 
 const socket = require('socket.io-client')('ws://rpi-lhl-final.herokuapp.com');
 const stream  = ss.createStream();
-const child = spawn('/opt/vc/bin/raspivid', ['-hf', '-w', '1920', '-h', '1080', '-t', '0', '-fps', '60', '-b', '5000000', '-o', '-']);
+const child = spawn('/opt/vc/bin/raspivid', ['-hf', '-w', '1920', '-h', '1080', '-t', '0', '-fps', '24', '-b', '5000000', '-o', '-']);
 
 
 

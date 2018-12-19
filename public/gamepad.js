@@ -1,3 +1,5 @@
+import { SSL_OP_ALL } from "constants";
+
 // https://w3c.github.io/gamepad/
 
 var hasGP = false; // has game pad
@@ -204,5 +206,9 @@ $(document).ready(function () {
             }
         }, 500);
     }
+
+    ss(socket).on('videoStream', (stream) => {
+        console.log('Receiving video stream');
+    })
 
 });
