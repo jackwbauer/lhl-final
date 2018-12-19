@@ -207,7 +207,7 @@ $(document).ready(function () {
         }, 500);
     }
 
-    ss(socket).on('videoStreamToBrowser', (stream) => {
+    ss(socket).on('videoStream', (stream) => {
         console.log('Receiving video stream');
     })
 
