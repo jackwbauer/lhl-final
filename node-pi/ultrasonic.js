@@ -6,14 +6,14 @@ const MICROSECONDS_PER_CM = 1e6/34321;
 
 let duration = 0.0;
 
-function loop() {
-    setTimeout(trigger.writeSync(0), 5);
-    setTimeout(trigger.writeSync(1), 10);
-    trigger.writeSync(0)
-    
-}
+// function loop() {
+//     setTimeout(trigger.writeSync(0), 5);
+//     setTimeout(trigger.writeSync(1), 10);
+//     trigger.writeSync(0)
+// }
 
 echo.watch((err, value) => {
+    console.log('watching');
     let startTick;
     let endTick;
     if(err) {
@@ -29,6 +29,6 @@ echo.watch((err, value) => {
 })
 
 setInterval(() => {
-    setTimeout(trigger.writeSync(1), 10);
+    setTimeout(() => trigger.writeSync(1), 10);
     trigger.writeSync(0)
 })
