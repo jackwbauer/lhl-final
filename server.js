@@ -28,8 +28,11 @@ io.on('connection', (socket) => {
         console.log('Sending controls to pi');
     })
 
-    ss(socket).on('videoStream', (data) => {
+    let outgoingStream = ss.createStream();
+
+    ss(socket).on('videoStream', (stream, data) => {
         console.log('Receiving video stream');
-        ss(socket).emit('videoStreamToBrowser', data);
+        console.log(data);
+        stream.pipe(outgoingStream);
     })
 })
