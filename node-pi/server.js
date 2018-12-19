@@ -20,8 +20,10 @@ socket.on('disconnect', () => {
     console.log('Disconnected from web server');
 })
 
-ss(socket).emit('videoStream', stream);
-child.stdout.pipe(stream);
+//ss(socket).emit('videoStream', child.stdout.pipe(stream));
+child.stdout.pipe(stream => {
+    ss(socket).emit('videoStream', stream);
+});
 
 socket.on('controlsOutput', (data) => {
     console.log('Received controls');

@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const server = require('http').Server(app);
 const io = require('socket.io')(server);
+const ss = require('socket.io-stream');
 
 const port = process.env.PORT || 3000;
 
@@ -27,7 +28,7 @@ io.on('connection', (socket) => {
         console.log('Sending controls to pi');
     })
 
-    socket.on('videoStream', (data) => {
+    ss(socket).on('videoStream', (data) => {
         console.log('Receiving video stream');
         console.log(data);
     })
