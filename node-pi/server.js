@@ -21,7 +21,8 @@ socket.on('disconnect', () => {
 })
 
 ss(socket).emit('videoStream', stream);
-child.stdout.pipe(stream);
+// child.stdout.pipe(stream);
+stream.pipe(child.stdout);
 
 socket.on('controlsOutput', (data) => {
     console.log('Received controls');
