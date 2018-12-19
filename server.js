@@ -30,7 +30,6 @@ io.on('connection', (socket) => {
 
     ss(socket).on('videoStream', (data) => {
         console.log('Receiving video stream');
-        console.log(ss);
         ss(socket).emit('videoStream', data);
     })
 })
