@@ -29,6 +29,12 @@ io.on('connection', (socket) => {
     })
 
     let outgoingStream = ss.createStream();
+    ss(socket).emit('videoStreamToBrowser', outgoingStream);
+
+    socket.on('videoStream', (data) => {
+        console.log('plain old socket received');
+        console.log(data);
+    });
 
     ss(socket).on('videoStream', (stream, data) => {
         console.log('Receiving video stream');

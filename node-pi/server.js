@@ -1,4 +1,5 @@
 const camera = require('./camera');
+const raspivid = require('raspivid');
 const ss = require('socket.io-stream');
 const spawn = require('child_process').spawn;
 // const GPIO = require('onoff').Gpio;
@@ -7,21 +8,21 @@ const spawn = require('child_process').spawn;
 // const LED_blur = new GPIO(5, 'out');
 
 const socket = require('socket.io-client')('ws://rpi-lhl-final.herokuapp.com');
-const stream  = ss.createStream();
-const child = spawn('/opt/vc/bin/raspivid', ['-hf', '-w', '1920', '-h', '1080', '-t', '0', '-fps', '24', '-b', '5000000', '-o', '-']);
-
-
+// const stream  = ss.createStream();
+// const child = spawn('/opt/vc/bin/raspivid', ['-hf', '-w', '1920', '-h', '1080', '-t', '0', '-fps', '24', '-b', '5000000', '-o', '-']);
 
 socket.on('connect', () => {
     console.log('Connected web server');
 })
+
+const video = raspivid();
 
 socket.on('disconnect', () => {
     console.log('Disconnected from web server');
 })
 
 ss(socket).emit('videoStream', stream);
-child.stdout.pipe(stream);
+video.pipe(stream);
 
 socket.on('controlsOutput', (data) => {
     console.log('Received controls');
