@@ -27,6 +27,7 @@
     "ffmpeg": "0.0.4",
     "onoff": "^3.2.2",
     "pi-camera": "^1.2.1",
+    "raspivid-stream": "^0.2.1",
     "socket.io": "^2.2.0",
     "socket.io-client": "^2.2.0",
     "socket.io-stream": "^0.9.1",
