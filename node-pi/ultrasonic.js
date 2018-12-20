@@ -29,6 +29,6 @@ echo.watch((err, value) => {
 })
 
 setInterval(() => {
-    setTimeout(() => trigger.writeSync(1), 10);
-    trigger.writeSync(0)
-})
+    setTimeout(() => trigger.writeSync(0), 5);
+    trigger.writeSync(1);
+}, 5)
