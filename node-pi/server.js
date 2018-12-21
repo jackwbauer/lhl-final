@@ -2,10 +2,8 @@ const camera = require('./camera');
 const raspivid = require('raspivid');
 const ss = require('socket.io-stream');
 const spawn = require('child_process').spawn;
-// const GPIO = require('onoff').Gpio;
-// const LED_red = new GPIO(13, 'out');
-// const LED_green = new GPIO(6, 'out');
-// const LED_blur = new GPIO(5, 'out');
+const motor = require('./motor.js');
+const ultrasonic = require('./ultrasonic.js');
 
 const socket = require('socket.io-client')('ws://rpi-lhl-final.herokuapp.com');
 // const stream  = ss.createStream();
@@ -15,32 +13,37 @@ socket.on('connect', () => {
     console.log('Connected web server');
 })
 
-const video = raspivid();
+//const video = raspivid();
 
 socket.on('disconnect', () => {
     console.log('Disconnected from web server');
 })
 
-ss(socket).emit('videoStream', stream);
-video.pipe(stream);
+//ss(socket).emit('videoStream', stream);
+//video.pipe(stream);
 
 socket.on('controlsOutput', (data) => {
     console.log('Received controls');
     console.log(data);
-    // const controls = JSON.parse(data);
-    // let direction = controls.direction;
-    //console.log(direction);
-    // if (direction > 0) {
-    //     LED_red.writeSync(0);
-    //     LED_blur.writeSync(0);
-    //     LED_green.writeSync(1);
-    // } else if (direction < 0) {
-    //     LED_green.writeSync(0);
-    //     LED_blur.writeSync(0);
-    //     LED_red.writeSync(1);
-    // } else {
-    //     LED_green.writeSync(0);
-    //     LED_red.writeSync(0);
-    //     LED_blur.writeSync(1);
-    // }
+    const controls = data;
+    let direction = controls.direction;
+    let turn = controls.turn;
+    console.log(direction);
+     if (direction > 0) {
+         motor.forward();
+     } else if (direction < 0) {
+         motor.reverse();
+     } else if (turn > 0) {
+       motor.right();
+     } else if (turn < 0) {
+       motor.left();
+     } else {
+       motor.stop();
+     }
 })
+
+setInterval(() => {
+  ultrasonic.distance().then((distance) => {
+    console.log(distance);
+  })
+}, 500);
