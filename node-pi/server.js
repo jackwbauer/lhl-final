@@ -5,7 +5,8 @@ const spawn = require('child_process').spawn;
 const motor = require('./motor.js');
 //const ultrasonic = require('./ultrasonic.js');
 const five = require('johnny-five');
-const Raspi = require('raspi-io');
+//const Raspi = require('raspi-io');
+//const PiIO = require('pi-io');
 
 const socket = require('socket.io-client')('ws://rpi-lhl-final.herokuapp.com');
 // const stream  = ss.createStream();
@@ -30,7 +31,7 @@ socket.on('controlsOutput', (data) => {
     const controls = data;
     let direction = controls.direction;
     let turn = controls.turn;
-    console.log(direction);
+    //console.log(direction);
      if (direction > 0) {
          motor.forward();
      } else if (direction < 0) {
@@ -44,27 +45,28 @@ socket.on('controlsOutput', (data) => {
      }
 })
 
-//const board =  new five.Board({io: new Raspi()});
+//const board =  new five.Board({io: new PiIO()});
 //board.on('ready', () => {
-//  const proximity = new five.Proximity({
-//    controller: 'HCSR04',
-//    pin: 23
-//  });
+  //const proximity = new five.Proximity({
+    //controller: 'HCSR04',
+    //pin: 23
+  //});
 
-//  proximity.on('data', function() {
-//    console.log('Proximity: ');
-//    console.log('  cm:', this.cm);
-//    console.log('  in:', this.in);
-//    console.log('----------');
-//  });
+  //proximity.on('data', function() {
+    //console.log('Proximity: ');
+    //console.log('  cm:', this.cm);
+    //console.log('  in:', this.in);
+    //console.log('----------');
+  //});
 
-//  proximity.on('change', function() {
-//    console.log('thie obstruction has moved.');
-//  })
+  //proximity.on('change', function() {
+    //console.log('thie obstruction has moved.');
+  //})
 //});
 
 //setInterval(() => {
-//  ultrasonic.distance().then((distance) => {
-//    console.log(distance);
-//  })
+  //ultrasonic.distance().then((distance) => {
+    //console.log(distance);
+  //})
 //}, 500);
+
