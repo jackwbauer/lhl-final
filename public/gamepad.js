@@ -30,13 +30,13 @@ $(document).ready(function () {
     }
 
     socket.on('carConnected', (data) => {
-      console.log('car connected');
-      console.log(data);
+        console.log('car connected');
+        $("#carId").text(`connected to car #${data.carId}`);
     });
 
     socket.on('newDistance', (data) => {
-      console.log('distance data received');
-      console.log(data);
+        console.log('distance data received');
+        $("#carDistance").text(`${data.distance}cm to nearest obstruction`);
     });
 
     function resetInput() {
