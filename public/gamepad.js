@@ -29,6 +29,16 @@ $(document).ready(function () {
         socket.emit('controlsInput', input);
     }
 
+    socket.on('carConnected', (data) => {
+      console.log('car connected');
+      console.log(data);
+    });
+
+    socket.on('newDistance', (data) => {
+      console.log('distance data received');
+      console.log(data);
+    });
+
     function resetInput() {
         direction = 0;
         turn = 0;
