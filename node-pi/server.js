@@ -32,14 +32,18 @@ socket.on('controlsOutput', (data) => {
     let direction = controls.direction;
     let turn = controls.turn;
     //console.log(direction);
-     if (direction > 0) {
+    if(turn > 0) {
+      motor.right();
+    } else if (turn < 0) {
+      motor.left();
+    } else if (direction > 0) {
          motor.forward();
      } else if (direction < 0) {
          motor.reverse();
-     } else if (turn > 0) {
-       motor.right();
-     } else if (turn < 0) {
-       motor.left();
+     //} else if (turn > 0) {
+     //  motor.right();
+     //} else if (turn < 0) {
+     //  motor.left();
      } else {
        motor.stop();
      }
