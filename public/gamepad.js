@@ -36,7 +36,7 @@ $(document).ready(function () {
 
     socket.on('newDistance', (data) => {
         console.log('distance data received');
-        $("#carDistance").text(`${data.distance}cm to nearest obstruction`);
+        $("#carDistance").text(`${Math.floor(data.distance)}cm to nearest obstruction`);
     });
 
     function resetInput() {

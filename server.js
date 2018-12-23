@@ -29,15 +29,15 @@ io.on('connection', (socket) => {
     });
 
     socket.on('carConnected', (data) => {
-      console.log(data);
+    //   console.log(data);
       socket.broadcast.emit('carConnected', data);
       console.log('sending car connection info to browser client');
     });
 
     socket.on('newDistance', (data) => {
-      console.log(data);
+    //   console.log(data);
       socket.broadcast.emit('newDistance', data);
-      console.log('sending distance info to browser client');
+    //   console.log('sending distance info to browser client');
     });
 
     let outgoingStream = ss.createStream();
