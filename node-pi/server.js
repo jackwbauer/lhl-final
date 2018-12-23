@@ -3,10 +3,8 @@ const raspivid = require('raspivid');
 const ss = require('socket.io-stream');
 const spawn = require('child_process').spawn;
 const motor = require('./motor.js');
-//const ultrasonic = require('./ultrasonic.js');
 const five = require('johnny-five');
-//const Raspi = require('raspi-io');
-//const PiIO = require('pi-io');
+const PiIO = require('pi-io');
 
 const socket = require('socket.io-client')('ws://rpi-lhl-final.herokuapp.com');
 // const stream  = ss.createStream();
@@ -14,6 +12,7 @@ const socket = require('socket.io-client')('ws://rpi-lhl-final.herokuapp.com');
 
 socket.on('connect', () => {
     console.log('Connected web server');
+    socket.emit('carConnected', { carId: 1 });
 })
 
 //const video = raspivid();
@@ -40,37 +39,25 @@ socket.on('controlsOutput', (data) => {
          motor.forward();
      } else if (direction < 0) {
          motor.reverse();
-     //} else if (turn > 0) {
-     //  motor.right();
-     //} else if (turn < 0) {
-     //  motor.left();
      } else {
        motor.stop();
      }
-})
+});
 
-//const board =  new five.Board({io: new PiIO()});
-//board.on('ready', () => {
-  //const proximity = new five.Proximity({
-    //controller: 'HCSR04',
-    //pin: 23
-  //});
+const board =  new five.Board({io: new PiIO()});
+board.on('ready', () => {
+  const proximity = new five.Proximity({
+    controller: PiIO.HCSR04,
+    triggerPin: 'GPIO23',
+    echoPin: 'GPIO24'
+  });
 
-  //proximity.on('data', function() {
-    //console.log('Proximity: ');
-    //console.log('  cm:', this.cm);
-    //console.log('  in:', this.in);
-    //console.log('----------');
-  //});
-
-  //proximity.on('change', function() {
-    //console.log('thie obstruction has moved.');
-  //})
-//});
-
-//setInterval(() => {
-  //ultrasonic.distance().then((distance) => {
-    //console.log(distance);
-  //})
-//}, 500);
+  proximity.on('change', function() {
+    console.log('cm: ', this.cm);
+    if (this.cm <= 10) {
+      motor.stop();
+    }
+    socket.emit('newDistance', { carId: 1, distance: this.cm });
+  });
+});
 

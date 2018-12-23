@@ -26,7 +26,19 @@ io.on('connection', (socket) => {
         console.log(data);
         socket.broadcast.emit('controlsOutput', data);
         console.log('Sending controls to pi');
-    })
+    });
+
+    socket.on('carConnected', (data) => {
+      console.log(data);
+      socket.broadcast.emit('carConnected', data);
+      console.log('sending car connection info to browser client');
+    });
+
+    socket.on('newDistance', (data) => {
+      console.log(data);
+      socket.broadcast.emit('newDistance', data);
+      console.log('sending distance info to browser client');
+    });
 
     let outgoingStream = ss.createStream();
     ss(socket).emit('videoStreamToBrowser', outgoingStream);
