@@ -28,89 +28,46 @@ PhaserGame.prototype = {
 
     init: function () {
 
-        this.game.renderer.renderSession.roundPixels = true;
-        this.physics.startSystem(Phaser.Physics.ARCADE);
+        // this.game.renderer.renderSession.roundPixels = true;
+        // this.physics.startSystem(Phaser.Physics.ARCADE);
 
     },
 
     preload: function () {
 
         this.load.atlas('dpad', 'phaser/skins/dpad.png', 'phaser/skins/dpad.json');
-        this.load.image('ball', 'phaser/bubble.png');
-        this.load.image('bg', 'phaser/space2.png');
 
     },
 
     create: function () {
-
-        this.add.image(0, 0, 'bg');
-
-        this.sprite = this.add.sprite(400, 200, 'ball');
-        this.physics.arcade.enable(this.sprite);
-
         this.pad = this.game.plugins.add(Phaser.VirtualJoystick);
-
         this.stick = this.pad.addDPad(0, 0, 200, 'dpad');
         this.stick.alignBottomLeft(0);
-
-        this.buttonA = this.pad.addButton(500, 520, 'dpad', 'button1-up', 'button1-down');
-        this.buttonA.onDown.add(this.pressButtonA, this);
-
-        this.buttonB = this.pad.addButton(615, 450, 'dpad', 'button2-up', 'button2-down');
-        this.buttonB.onDown.add(this.pressButtonB, this);
-
-        this.buttonC = this.pad.addButton(730, 520, 'dpad', 'button3-up', 'button3-down');
-        this.buttonC.onDown.add(this.pressButtonC, this);
-
-    },
-
-    pressButtonA: function () {
-
-        this.sprite.tint = Math.random() * 0xFFFFFF;
-
-    },
-
-    pressButtonB: function () {
-
-        this.sprite.scale.set(Math.random() * 4);
-
-    },
-
-    pressButtonC: function () {
-
-        this.sprite.scale.set(1);
-        this.sprite.tint = 0xFFFFFF;
-
     },
 
     update: function () {
 
-        var maxSpeed = 300;
-
-        if (this.stick.isDown)
-        {
-            this.sprite.body.velocity.set(0);
-
-            if (this.stick.direction === Phaser.LEFT)
-            {
-                this.sprite.body.velocity.x = -maxSpeed;
+        if (this.stick.isDown) {
+            if (this.stick.direction === Phaser.LEFT) {
+                document.getElementById('turn').innerHTML = `turn = -1`;
+                document.getElementById('direction').innerHTML = `direction = 0`;
             }
-            else if (this.stick.direction === Phaser.RIGHT)
-            {
-                this.sprite.body.velocity.x = maxSpeed;
+            else if (this.stick.direction === Phaser.RIGHT) {
+                document.getElementById('turn').innerHTML = `turn = 1`;
+                document.getElementById('direction').innerHTML = `direction = 0`;
             }
-            else if (this.stick.direction === Phaser.UP)
-            {
-                this.sprite.body.velocity.y = -maxSpeed;
+            else if (this.stick.direction === Phaser.UP) {
+                document.getElementById('direction').innerHTML = `direction = 1`;
+                document.getElementById('turn').innerHTML = `turn = 0`;
             }
-            else if (this.stick.direction === Phaser.DOWN)
-            {
-                this.sprite.body.velocity.y = maxSpeed;
+            else if (this.stick.direction === Phaser.DOWN) {
+                document.getElementById('direction').innerHTML = `direction = -1`;
+                document.getElementById('turn').innerHTML = `turn = 0`;
             }
         }
-        else
-        {
-            this.sprite.body.velocity.set(0);
+        else {
+            document.getElementById('direction').innerHTML = `direction = 0`;
+            document.getElementById('turn').innerHTML = `turn = 0`;
         }
 
     }
