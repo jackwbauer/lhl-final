@@ -4,6 +4,7 @@
 
 var hasGP = false; // has game pad
 var useGP = false; // false uses keyboard input, true uses controller input
+var useTouch = false; // true uses virtual joystick touch input
 var repGP; // report game pad (what game pad is doing)
 
 function canGame() {
@@ -78,20 +79,34 @@ $(document).ready(function () {
 
     const $keyboardButton = $('#keyboardButton');
     const $gamepadButton = $('#gamepadButton');
+    const $virtualJoystickButton = $('#virtualJoystickButton');
     $keyboardButton.addClass('active');
 
     $keyboardButton.click(event => {
         resetInput();
         $keyboardButton.addClass('active');
         $gamepadButton.removeClass('active');
+        $virtualJoystickButton.removeClass('active');
         useGP = false;
+        useTouch = false;
     });
 
     $gamepadButton.click(event => {
         resetInput();
         $keyboardButton.removeClass('active');
         $gamepadButton.addClass('active');
+        $virtualJoystickButton.removeClass('active');
         useGP = true;
+        useTouch = false;
+    });
+
+    $virtualJoystickButton.click(event => {
+        resetInput();
+        $keyboardButton.removeClass('active');
+        $gamepadButton.removeClass('active');
+        $virtualJoystickButton.addClass('active');
+        useGP = false;
+        useTouch = true;
     });
 
     $(window).keydown(event => {
@@ -230,73 +245,75 @@ $(document).ready(function () {
 *               For more details please see http://phaser.io/shop/plugins/virtualjoystick
 */
 
-// var game = new Phaser.Game(800, 600, Phaser.AUTO, 'phaser-example');
-var game = new Phaser.Game(800, 600, Phaser.CANVAS, 'videoStream');
+    // var game = new Phaser.Game(800, 600, Phaser.AUTO, 'phaser-example');
+    var game = new Phaser.Game(800, 600, Phaser.CANVAS, 'videoStream');
 
-var PhaserGame = function () {
+    var PhaserGame = function () {
 
-    this.sprite;
+        this.sprite;
 
-    this.pad;
+        this.pad;
 
-    this.stick;
+        this.stick;
 
-    this.buttonA;
-    this.buttonB;
-    this.buttonC;
+        this.buttonA;
+        this.buttonB;
+        this.buttonC;
 
-};
+    };
 
-PhaserGame.prototype = {
+    PhaserGame.prototype = {
 
-    init: function () {
+        init: function () {
 
-        // this.game.renderer.renderSession.roundPixels = true;
-        // this.physics.startSystem(Phaser.Physics.ARCADE);
+            // this.game.renderer.renderSession.roundPixels = true;
+            // this.physics.startSystem(Phaser.Physics.ARCADE);
 
-    },
+        },
 
-    preload: function () {
+        preload: function () {
 
-        this.load.atlas('dpad', 'phaser/skins/dpad.png', 'phaser/skins/dpad.json');
+            this.load.atlas('dpad', 'phaser/skins/dpad.png', 'phaser/skins/dpad.json');
 
-    },
+        },
 
-    create: function () {
-        this.pad = this.game.plugins.add(Phaser.VirtualJoystick);
-        this.stick = this.pad.addDPad(0, 0, 200, 'dpad');
-        this.stick.alignBottomLeft(0);
-    },
+        create: function () {
+            this.pad = this.game.plugins.add(Phaser.VirtualJoystick);
+            this.stick = this.pad.addDPad(0, 0, 200, 'dpad');
+            this.stick.alignBottomLeft(0);
+        },
 
-    update: function () {
-
-        if (this.stick.isDown) {
-            if (this.stick.direction === Phaser.LEFT) {
-                turn = -1;
-                direction = 0;
+        update: function () {
+            if (useTouch) {
+                if (this.stick.isDown) {
+                    if (this.stick.direction === Phaser.LEFT) {
+                        turn = -1;
+                        direction = 0;
+                    }
+                    else if (this.stick.direction === Phaser.RIGHT) {
+                        turn = 1;
+                        direction = 0;
+                    }
+                    else if (this.stick.direction === Phaser.UP) {
+                        direction = 1;
+                        turn = 0;
+                    }
+                    else if (this.stick.direction === Phaser.DOWN) {
+                        direction = -1;
+                        turn = 0;
+                    }
+                }
+                else {
+                    direction = 0;
+                    turn = 0;
+                }
+                output();
             }
-            else if (this.stick.direction === Phaser.RIGHT) {
-                turn = 1;
-                direction = 0;
-            }
-            else if (this.stick.direction === Phaser.UP) {
-                direction = 1;
-                turn = 0;
-            }
-            else if (this.stick.direction === Phaser.DOWN) {
-                direction = -1;
-                turn = 0;
-            }
+
         }
-        else {
-            direction = 0;
-            turn = 0;
-        }
-        output();
-    }
 
-};
+    };
 
-game.state.add('Game', PhaserGame, true);
+    game.state.add('Game', PhaserGame, true);
 
 });
