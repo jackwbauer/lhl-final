@@ -8,7 +8,7 @@
 */
 
 // var game = new Phaser.Game(800, 600, Phaser.AUTO, 'phaser-example');
-var game = new Phaser.Game(800, 600, Phaser.CANVAS, 'phaser-example');
+var game = new Phaser.Game(800, 600, Phaser.CANVAS, 'videoStream');
 
 var PhaserGame = function () {
 
@@ -35,9 +35,9 @@ PhaserGame.prototype = {
 
     preload: function () {
 
-        this.load.atlas('dpad', './phaser/skins/dpad.png', './phaser/skins/dpad.json');
-        this.load.image('ball', './phaser/bubble.png');
-        this.load.image('bg', './phaser/space2.png');
+        this.load.atlas('dpad', 'phaser/skins/dpad.png', 'phaser/skins/dpad.json');
+        this.load.image('ball', 'phaser/bubble.png');
+        this.load.image('bg', 'phaser/space2.png');
 
     },
 
@@ -50,10 +50,8 @@ PhaserGame.prototype = {
 
         this.pad = this.game.plugins.add(Phaser.VirtualJoystick);
 
-        this.stick = this.pad.addDpad(0, 0, 200, 'arcade');
-        this.stick.alignBottomLeft(100);
-        //this.stick.posx = 100;
-        //this.stick.posy = 100;
+        this.stick = this.pad.addDPad(0, 0, 200, 'dpad');
+        this.stick.alignBottomLeft(0);
 
         this.buttonA = this.pad.addButton(500, 520, 'dpad', 'button1-up', 'button1-down');
         this.buttonA.onDown.add(this.pressButtonA, this);
@@ -118,6 +116,5 @@ PhaserGame.prototype = {
     }
 
 };
-console.log(game);
 
 game.state.add('Game', PhaserGame, true);

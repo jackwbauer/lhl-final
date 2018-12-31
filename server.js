@@ -7,6 +7,7 @@ const ss = require('socket.io-stream');
 const port = process.env.PORT || 3000;
 
 app.use(express.static('public'));
+// app.use(express.static('phaser'));
 
 server.listen(port, () => {
     console.log(`socket.io server listening on port ${port}`);
