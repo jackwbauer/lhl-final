@@ -49,3 +49,11 @@ exports.stop = function() {
   ma.writeSync(0);
   mb.writeSync(0);
 }
+
+const Gpio = require('pigpio').Gpio;
+ 
+const pwm = new Gpio(6, {mode: Gpio.OUTPUT});
+//const direction = new gpio(13, 'out');
+//direction.writeSync(1);
+let dutyCycle = 0;
+pwm.pwmWrite(255); 
