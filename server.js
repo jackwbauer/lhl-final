@@ -41,6 +41,10 @@ io.on('connection', (socket) => {
     //   console.log('sending distance info to browser client');
     });
 
+    socket.on('frame', (data) => {
+        socket.broadcast.emit('frame', data);
+    });
+
     let outgoingStream = ss.createStream();
     ss(socket).emit('videoStreamToBrowser', outgoingStream);
 
