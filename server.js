@@ -42,6 +42,7 @@ io.on('connection', (socket) => {
     });
 
     socket.on('frame', (data) => {
+        console.log('sending frame');
         socket.broadcast.emit('frame', data);
     });
 

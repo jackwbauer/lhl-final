@@ -49,6 +49,7 @@ $(document).ready(function () {
     // }, 42);
 
     socket.on('frame', function(frame){
+        console.log('received frame');
         img.attr('src', 'data:image/jpg;base64,' + frame);
     });
 
