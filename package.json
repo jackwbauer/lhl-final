@@ -26,6 +26,7 @@
     "bluebird": "^3.5.3",
     "express": "^4.16.4",
     "ffmpeg": "0.0.4",
+    "mjpeg-camera": "^1.7.2",
     "socket.io": "^2.2.0",
     "socket.io-client": "^2.2.0",
     "socket.io-stream": "^0.9.1",
