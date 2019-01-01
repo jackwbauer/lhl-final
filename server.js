@@ -35,6 +35,10 @@ io.on('connection', (socket) => {
       console.log('sending car connection info to browser client');
     });
 
+    socket.on('cameraConn', (data) => {
+        console.log('pi camera connected');
+    });
+
     socket.on('newDistance', (data) => {
     //   console.log(data);
       socket.broadcast.emit('newDistance', data);
