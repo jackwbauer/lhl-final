@@ -35,7 +35,10 @@
         <button id="gamepadButton" type="button" class="btn btn-secondary">Gamepad</button>
         <button id="virtualJoystickButton" type="button" class="btn btn-secondary">Touch</button>
     </div>
-    <div id="videoStream">
+    <div id="videoStreamDiv">
+        <canvas id="videoStreamCanvas" width="640" height="480">
+            <img id="videoStream" src="http://192.168.88.152:8000/stream.mjpg">
+        </canvas>
     </div>
 </body>
 

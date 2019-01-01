@@ -40,6 +40,15 @@ $(document).ready(function () {
         $("#carDistance").text(`${Math.floor(data.distance)}cm to nearest obstruction`);
     });
 
+
+    const img = document.getElementById('videoStream');
+    const $canvas = $("#videoStreamCanvas");
+    const ctx = $canvas[0].getContext('2d');
+    const $img = $("#videoStream");
+    setInterval(() => {
+        ctx.drawImage(img, 0, 0);
+    }, 42);
+
     function resetInput() {
         direction = 0;
         turn = 0;
@@ -246,7 +255,7 @@ $(document).ready(function () {
 */
 
     // var game = new Phaser.Game(800, 600, Phaser.AUTO, 'phaser-example');
-    var game = new Phaser.Game(800, 600, Phaser.CANVAS, 'videoStream');
+    var game = new Phaser.Game(800, 600, Phaser.CANVAS, 'videoStreamCanvas');
 
     var PhaserGame = function () {
 
