@@ -30,6 +30,27 @@ $(document).ready(function () {
         socket.emit('controlsInput', input);
     }
 
+    // recording controls
+    $recordButton = $('#recordControls');
+    $playbackButton = $('#playbackControls');
+    let currentlyRecording = false;
+    let currentlyPlayingback = false;
+
+    $recordButton.on('click', () => {
+        currentlyRecording = !currentlyRecording;
+        const buttonText = currentlyRecording ? 'Stop Recording' : 'Start Recording';
+        $recordButton.text(buttonText);
+        socket.emit('controlRecording', { currentlyRecording });
+    });
+
+    $playbackButton.on('click', () => {
+        currentlyPlayingback = !currentlyPlayingback;
+        const buttonText = currentlyPlayingback ? 'Stop Playback' : 'Start Playback';
+        $playbackButton.text(buttonText);
+        socket.emit('playbackControls', { currentlyPlayingback });
+    });
+    // end of recording controls
+
     socket.on('carConnected', (data) => {
         console.log('car connected');
         $("#carId").text(`connected to car #${data.carId}`);

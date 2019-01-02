@@ -45,6 +45,19 @@ io.on('connection', (socket) => {
     //   console.log('sending distance info to browser client');
     });
 
+    // playback controls
+    // playbackControls && controlRecording
+    socket.on('playbackControls', (data) => {
+        console.log('sending playback controls to pi');
+        socket.broadcast.emit('playbackControls', data);
+    });
+
+    socket.on('controlRecording', (data) => {
+        console.log('sending record start or stop request to pi');
+        socket.broadcast.emit('controlRecording', data);
+    });
+    // end of playback controls
+
     socket.on('frame', (data) => {
         console.log('sending frame');
         socket.broadcast.emit('frame', data);
