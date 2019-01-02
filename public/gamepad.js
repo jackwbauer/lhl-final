@@ -50,7 +50,7 @@ $(document).ready(function () {
 
     socket.on('frame', function(frame){
         console.log('received frame');
-        img.attr('src', 'data:image/jpg;base64,' + frame);
+        $("videoStream").attr('src', 'data:image/jpg;base64,' + frame);
     });
 
     function resetInput() {
