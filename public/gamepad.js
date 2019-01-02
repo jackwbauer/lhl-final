@@ -48,9 +48,13 @@ $(document).ready(function () {
     //     ctx.drawImage(img, 0, 0);
     // }, 42);
 
-    socket.on('frame', function(frame){
-        console.log(frame);
-        $("videoStream").attr('src', frame);
+    socket.on('frame', function (frame) {
+        var arrayBufferView = new Uint8Array(frame);
+        var blob = new Blob([arrayBufferView], { type: "image/jpeg" });
+        var urlCreator = window.URL || window.webkitURL;
+        var imageUrl = urlCreator.createObjectURL(blob);
+        var img = document.querySelector("#videoStream");
+        img.src = imageUrl;
     });
 
     function resetInput() {
