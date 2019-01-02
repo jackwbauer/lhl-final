@@ -49,7 +49,7 @@ $(document).ready(function () {
     // }, 42);
 
     socket.on('frame', function(frame){
-        console.log('received frame');
+        console.log(frame);
         $("videoStream").attr('src', frame);
     });
 
