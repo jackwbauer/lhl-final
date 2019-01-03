@@ -61,14 +61,6 @@ $(document).ready(function () {
     });
 
     const img = document.getElementById('videoStream');
-    // const $canvas = $("#videoStreamCanvas");
-    // const ctx = $canvas[0].getContext('2d');
-    // const $img = $("#videoStream");
-    // setInterval(() => {
-    //     ctx.drawImage(img, 0, 0);
-    // }, 42);
-
-    const img = document.querySelector("#videoStream");
     const urlCreator = window.URL || window.webkitURL;
     socket.on('frame', (frame) => {
         const arrayBufferView = new Uint8Array(frame);
