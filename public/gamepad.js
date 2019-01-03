@@ -57,7 +57,6 @@ $(document).ready(function () {
     });
 
     socket.on('newDistance', (data) => {
-        // console.log('distance data received');
         $("#carDistance").text(`${Math.floor(data.distance)}cm to nearest obstruction`);
     });
 
@@ -69,12 +68,12 @@ $(document).ready(function () {
     //     ctx.drawImage(img, 0, 0);
     // }, 42);
 
-    socket.on('frame', function (frame) {
-        var arrayBufferView = new Uint8Array(frame);
-        var blob = new Blob([arrayBufferView], { type: "image/jpeg" });
-        var urlCreator = window.URL || window.webkitURL;
-        var imageUrl = urlCreator.createObjectURL(blob);
-        var img = document.querySelector("#videoStream");
+    const img = document.querySelector("#videoStream");
+    const urlCreator = window.URL || window.webkitURL;
+    socket.on('frame', (frame) => {
+        const arrayBufferView = new Uint8Array(frame);
+        const blob = new Blob([arrayBufferView], { type: "image/jpeg" });
+        const imageUrl = urlCreator.createObjectURL(blob);
         img.src = imageUrl;
     });
 

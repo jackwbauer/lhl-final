@@ -30,9 +30,8 @@ io.on('connection', (socket) => {
     });
 
     socket.on('carConnected', (data) => {
-    //   console.log(data);
-      socket.broadcast.emit('carConnected', data);
-      console.log('sending car connection info to browser client');
+        socket.broadcast.emit('carConnected', data);
+        console.log('sending car connection info to browser client');
     });
 
     socket.on('cameraConn', (data) => {
@@ -40,13 +39,10 @@ io.on('connection', (socket) => {
     });
 
     socket.on('newDistance', (data) => {
-    //   console.log(data);
-      socket.broadcast.emit('newDistance', data);
-    //   console.log('sending distance info to browser client');
+        socket.broadcast.emit('newDistance', data);
     });
 
     // playback controls
-    // playbackControls && controlRecording
     socket.on('playbackControls', (data) => {
         console.log('sending playback controls to pi');
         socket.broadcast.emit('playbackControls', data);
