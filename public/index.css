@@ -1,0 +1,14 @@
+.videoStream {
+  position: absolute;
+  width: 640px;
+  height: 480px;
+  z-index: -1;
+}
+
+.touchControls {
+  position: absolute;
+  width: 640px;
+  height: 480px;
+}
+
+/*# sourceMappingURL=index.css.map */

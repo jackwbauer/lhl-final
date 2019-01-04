@@ -52,6 +52,10 @@ io.on('connection', (socket) => {
         console.log('sending record start or stop request to pi');
         socket.broadcast.emit('controlRecording', data);
     });
+
+    socket.on('playbackComplete', () => {
+        socket.broadcast.emit('playbackComplete');
+    });
     // end of playback controls
 
     socket.on('frame', (data) => {

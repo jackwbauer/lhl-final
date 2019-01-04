@@ -57,7 +57,11 @@ $(document).ready(function () {
     });
 
     socket.on('newDistance', (data) => {
-        $("#carDistance").text(`${Math.floor(data.distance)}cm to nearest obstruction`);
+        // $("#carDistance").text(`${Math.floor(data.distance)}cm to nearest obstruction`);
+    });
+
+    socket.on('playbackComplete', () => {
+        $playbackButton.text('Stop Playback');
     });
 
     const img = document.getElementById('videoStream');
@@ -81,9 +85,9 @@ $(document).ready(function () {
     let cameraRotation = 0; // -1 for left to +1 for right
 
     function output() {
-        $("#direction").text(`direction = ${direction}`);
-        $("#turn").text(`turn = ${turn}`);
-        $("#cameraRotation").text(`camera rotation = ${cameraRotation}`);
+        // $("#direction").text(`direction = ${direction}`);
+        // $("#turn").text(`turn = ${turn}`);
+        // $("#cameraRotation").text(`camera rotation = ${cameraRotation}`);
         sendInput();
         // logOutput();
     }
