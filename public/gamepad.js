@@ -75,6 +75,12 @@ $(document).ready(function () {
 
     img.on('dblclick', () => {
         img.toggleClass('fullScreen');
+        $keyboardButton.toggleClass('hidden');
+        $gamepadButton.toggleClass('hidden');
+        $recordButton.toggleClass('hidden');
+        $playbackButton.toggleClass('hidden');
+        $("#carId").toggleClass('hidden');
+        $("#gamepadPrompt").toggleClass('hidden');
     })
 
     function resetInput() {
