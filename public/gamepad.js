@@ -61,7 +61,7 @@ $(document).ready(function () {
     });
 
     socket.on('playbackComplete', () => {
-        $playbackButton.text('Stop Playback');
+        $playbackButton.text('Start Playback');
     });
 
     const img = $('#videoStream');
