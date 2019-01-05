@@ -70,7 +70,7 @@ $(document).ready(function () {
         const arrayBufferView = new Uint8Array(frame);
         const blob = new Blob([arrayBufferView], { type: "image/jpeg" });
         const imageUrl = urlCreator.createObjectURL(blob);
-        img.src = imageUrl;
+        img.attr('src', imageUrl);
     });
 
     img.on('dblclick', () => {
