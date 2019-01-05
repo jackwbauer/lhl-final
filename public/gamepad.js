@@ -64,7 +64,7 @@ $(document).ready(function () {
         $playbackButton.text('Stop Playback');
     });
 
-    const img = document.getElementById('videoStream');
+    const img = $('#videoStream');
     const urlCreator = window.URL || window.webkitURL;
     socket.on('frame', (frame) => {
         const arrayBufferView = new Uint8Array(frame);
@@ -72,6 +72,10 @@ $(document).ready(function () {
         const imageUrl = urlCreator.createObjectURL(blob);
         img.src = imageUrl;
     });
+
+    img.on('dblclick', () => {
+        img.toggleClass('fullScreen');
+    })
 
     function resetInput() {
         direction = 0;
