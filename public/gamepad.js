@@ -81,6 +81,7 @@ $(document).ready(function () {
         $playbackButton.toggleClass('hidden');
         $("#carId").toggleClass('hidden');
         $("#gamepadPrompt").toggleClass('hidden');
+        $('carInfo').toggleClass('hidden');
     })
 
     function resetInput() {
