@@ -20,7 +20,7 @@ let ids = [];
 function isIdInUse(id) {
     let found = ids.find((element) => {
         return element.userId == id;
-    })
+    });
     return found ? true : false;
 }
 
