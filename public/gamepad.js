@@ -31,6 +31,7 @@ $(document).ready(function () {
 
     let currentlyRecording = false;
     let currentlyPlayingback = false;
+    let canControl = false;
     const urlCreator = window.URL || window.webkitURL;
 
     // default image source
@@ -44,7 +45,9 @@ $(document).ready(function () {
             turn,
             cameraRotation
         };
-        socket.emit('controlsInput', input);
+        if (canControl) {
+            socket.emit('controlsInput', input);
+        }
     }
 
     $recordButton.on('click', () => {
@@ -59,6 +62,10 @@ $(document).ready(function () {
         const buttonText = currentlyPlayingback ? 'Stop Playback' : 'Start Playback';
         $playbackButton.text(buttonText);
         socket.emit('playbackControls', { currentlyPlayingback });
+    });
+
+    socket.on('canControl', (data) => {
+        canControl = data;
     });
 
     socket.on('connect', () => {
