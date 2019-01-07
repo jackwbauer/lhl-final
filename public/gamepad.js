@@ -28,10 +28,13 @@ $(document).ready(function () {
     const $gamepadPrompt = $("#gamepadPrompt");
     const $carInfo = $('carInfo');
     const $userInfo = $('#userInfo');
+    const $userId = $('#userId');
 
     let currentlyRecording = false;
     let currentlyPlayingback = false;
     let canControl = false;
+    let userId;
+    let controllingUser;
     const urlCreator = window.URL || window.webkitURL;
 
     // default image source
@@ -85,8 +88,18 @@ $(document).ready(function () {
         $playbackButton.text('Start Playback');
     });
 
+    socket.on('controllingUser', (data) => {
+        controllingUser = data;
+    });
+
+    socket.on('connectedUsers', (data) => {
+        // data will feed a dropdown
+
+    });
+
     socket.on('userId', (data) => {
-        $('#userId').text(`Your user id is ${data}`);
+        userId = data;
+        $useId.text(`Your user id is ${userId}`);
     })
 
     socket.on('frame', (frame) => {
