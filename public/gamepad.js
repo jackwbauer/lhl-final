@@ -60,7 +60,7 @@ $(document).ready(function () {
     });
 
     socket.on('connect', () => {
-        console.log('connected to socket server');
+        socket.emit('identifier', 'client');
     });
 
     socket.on('carConnected', (data) => {
