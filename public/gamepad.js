@@ -59,6 +59,10 @@ $(document).ready(function () {
         socket.emit('playbackControls', { currentlyPlayingback });
     });
 
+    socket.on('connect', () => {
+        console.log('connected to socket server');
+    });
+
     socket.on('carConnected', (data) => {
         console.log('car connected');
         $("#carId").text(`connected to car #${data.carId}`);
@@ -264,85 +268,5 @@ $(document).ready(function () {
             }
         }, 500);
     }
-
-    /**
-* @author       Richard Davey <rich@photonstorm.com>
-* @copyright    2015 Photon Storm Ltd.
-* @license      {@link http://choosealicense.com/licenses/no-license/|No License}
-* 
-* @description  This example requires the Phaser Virtual Joystick Plugin to run.
-*               For more details please see http://phaser.io/shop/plugins/virtualjoystick
-*/
-
-    // var game = new Phaser.Game(800, 600, Phaser.AUTO, 'phaser-example');
-    var game = new Phaser.Game(800, 600, Phaser.CANVAS, 'videoStreamCanvas');
-
-    var PhaserGame = function () {
-
-        this.sprite;
-
-        this.pad;
-
-        this.stick;
-
-        this.buttonA;
-        this.buttonB;
-        this.buttonC;
-
-    };
-
-    PhaserGame.prototype = {
-
-        init: function () {
-
-            // this.game.renderer.renderSession.roundPixels = true;
-            // this.physics.startSystem(Phaser.Physics.ARCADE);
-
-        },
-
-        preload: function () {
-
-            this.load.atlas('dpad', 'phaser/skins/dpad.png', 'phaser/skins/dpad.json');
-
-        },
-
-        create: function () {
-            this.pad = this.game.plugins.add(Phaser.VirtualJoystick);
-            this.stick = this.pad.addDPad(0, 0, 200, 'dpad');
-            this.stick.alignBottomLeft(0);
-        },
-
-        update: function () {
-            if (useTouch) {
-                if (this.stick.isDown) {
-                    if (this.stick.direction === Phaser.LEFT) {
-                        turn = -1;
-                        direction = 0;
-                    }
-                    else if (this.stick.direction === Phaser.RIGHT) {
-                        turn = 1;
-                        direction = 0;
-                    }
-                    else if (this.stick.direction === Phaser.UP) {
-                        direction = 1;
-                        turn = 0;
-                    }
-                    else if (this.stick.direction === Phaser.DOWN) {
-                        direction = -1;
-                        turn = 0;
-                    }
-                }
-                else {
-                    direction = 0;
-                    turn = 0;
-                }
-                sendInput();
-            }
-
-        }
-
-    };
-
-    game.state.add('Game', PhaserGame, true);
 
 });
