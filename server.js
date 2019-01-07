@@ -88,6 +88,7 @@ io.on('connection', (socket) => {
         if (data === 'client') {
             clientIds.push({ socketId: socket.id, userId: genereatedId });
             if (!controllingSocketId) {
+                console.log('new controlling user', controllingSocketId);
                 controllingSocketId = socket.id;
                 socket.emit('canControl', true);
             } else {
