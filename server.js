@@ -2,12 +2,10 @@ const express = require('express');
 const app = express();
 const server = require('http').Server(app);
 const io = require('socket.io')(server);
-const ss = require('socket.io-stream');
 
 const port = process.env.PORT || 3000;
 
 app.use(express.static('public'));
-// app.use(express.static('phaser'));
 
 server.listen(port, () => {
     console.log(`socket.io server listening on port ${port}`);
@@ -62,13 +60,4 @@ io.on('connection', (socket) => {
         console.log('sending frame');
         socket.broadcast.emit('frame', data);
     });
-
-    let outgoingStream = ss.createStream();
-    ss(socket).emit('videoStreamToBrowser', outgoingStream);
-
-    ss(socket).on('videoStream', (stream, data) => {
-        console.log('Receiving video stream');
-        console.log(data);
-        stream.pipe(outgoingStream);
-    })
 })
