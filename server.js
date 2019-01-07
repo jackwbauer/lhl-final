@@ -62,6 +62,7 @@ function transferControl(userId) {
 
 function removeSocketId(socket) {
     if(controllingSocketId === socket.id) {
+        console.log('controlling user has disconnected');
         transferControl();
         io.sockets.to(controllingSocketId).emit('canControl', true);
     }
