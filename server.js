@@ -17,10 +17,40 @@ app.get('/', (request, response) => {
     response.redirect('./public/index.html');
 });
 
+let ids = [];
+
+function isIdInUse(id) {
+    let found = ids.find((element) => {
+        return element.userId == id;
+    })
+    return found ? true : false;
+}
+
+function generateId(socket) {
+    let id = '';
+    possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+
+    while (!id && !isIdInUse(id)) {
+        id = '';
+        for (let i = 0; i < 4; i++) {
+            id += possible.charAt(Math.floor(Math.random() * possible.length));
+        }
+    }
+    ids.push({ socketId: socket.id, userId: id });
+    console.log('id:', id);
+    return id;
+}
+
+function removeSocketId(socket) {
+    ids = ids.filter((element) => element.socketId !== socket.id);
+}
+
 io.on('connection', (socket) => {
     console.log('Connection established');
+    generateId(socket);
     socket.on('disconnect', () => {
         console.log('Client disconnected');
+        removeSocketId(socket);
     })
 
     socket.on('controlsInput', (data) => {
