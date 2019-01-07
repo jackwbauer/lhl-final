@@ -69,7 +69,7 @@ $(document).ready(function () {
 
     socket.on('canControl', (data) => {
         canControl = data;
-        console.log('canControl has fired');
+        console.log('canControl has fired', data);
     });
 
     socket.on('connect', () => {
