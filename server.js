@@ -69,9 +69,16 @@ function removeSocketId(socket) {
 
 io.on('connection', (socket) => {
     console.log('Connection established');
+    socket.broadcast.emit('connectedUsers', clientIds.map((client) => client.userId));
     socket.on('disconnect', () => {
         console.log('Client disconnected');
         removeSocketId(socket);
+        socket.broadcast.emit('controllingUser', clientIds.find((client) => {
+            if(client.socketId === controllingSocketId) {
+                return client.userId;
+            }
+        }));
+        socket.broadcast.emit('connectedUsers', clientIds.map((client) => client.userId));
     });
 
     socket.on('identifier', (data) => {
@@ -88,6 +95,10 @@ io.on('connection', (socket) => {
             carIds.push({ socketId: socket.id, userId: genereatedId });
         }
         socket.emit('userId', genereatedId);
+    })
+
+    socket.on('transferControl', (data) => {
+        transferControl(data);
     })
 
     socket.on('controlsInput', (data) => {
