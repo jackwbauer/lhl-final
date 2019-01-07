@@ -15,41 +15,56 @@ app.get('/', (request, response) => {
     response.redirect('./public/index.html');
 });
 
-let ids = [];
+let controllingId = '';
 
-function isIdInUse(id) {
-    let found = ids.find((element) => {
+let clientIds = [];
+let carIds = []
+
+function isIdInUse(id, idArray) {
+    let found = idArray.find((element) => {
         return element.userId == id;
     })
     return found ? true : false;
 }
 
-function generateId(socket) {
+function generateId(identifier) {
     let id = '';
     possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    let idArray = [];
+    if (identifier === 'client') {
+        idArray = clientIds;
+    } else if (identifier === 'car') {
+        idArray = carIds;
+    }
 
-    while (!id && !isIdInUse(id)) {
+    while (!id && !isIdInUse(id, idArray)) {
         id = '';
         for (let i = 0; i < 4; i++) {
             id += possible.charAt(Math.floor(Math.random() * possible.length));
         }
     }
-    ids.push({ socketId: socket.id, userId: id });
-    console.log('id:', id);
     return id;
 }
 
 function removeSocketId(socket) {
-    ids = ids.filter((element) => element.socketId !== socket.id);
+    clientIds = clientIds.filter((element) => element.socketId !== socket.id);
 }
 
 io.on('connection', (socket) => {
     console.log('Connection established');
-    // generateId(socket);
-    io.sockets.to(socket.id).emit('userId', generateId(socket));
     socket.on('disconnect', () => {
         console.log('Client disconnected');
         removeSocketId(socket);
+    })
+
+    socket.on('identifier', (data) => {
+        let genereatedId = generateId();
+        if (data === 'client') {
+            clientIds.push({ socketId: socket.id, userId: genereatedId });
+        } else if (data === 'car') {
+            carIds.push({ socketId: socket.id, userId: genereatedId });
+        }
+        socket.emit('userId', genereatedId);
     })
 
     socket.on('controlsInput', (data) => {
