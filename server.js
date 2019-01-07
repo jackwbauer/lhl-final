@@ -141,7 +141,6 @@ io.on('connection', (socket) => {
     // end of playback controls
 
     socket.on('frame', (data) => {
-        console.log('sending frame');
         socket.broadcast.emit('frame', data);
     });
 })
