@@ -15,7 +15,7 @@ app.get('/', (request, response) => {
     response.redirect('./public/index.html');
 });
 
-let controllingId = '';
+let controllingSocketId = '';
 
 let clientIds = [];
 let carIds = []
@@ -46,7 +46,24 @@ function generateId(identifier) {
     return id;
 }
 
+function transferControl(userId) {
+    if(!userId) {
+        controllingSocketId = clientIds[0].socketId;
+    } else {
+        let socketId = clientIds.find((client) => {
+            if (client.userId === userId) {
+                return client.socketId;
+            }
+        });
+        controllingSocketId = socketId ? socketId : '';
+    }
+}
+
 function removeSocketId(socket) {
+    if(controllingSocketId === socket.id) {
+        transferControl();
+        io.sockets.to(controllingSocketId).emit('canControl', true);
+    }
     clientIds = clientIds.filter((element) => element.socketId !== socket.id);
 }
 
@@ -55,12 +72,18 @@ io.on('connection', (socket) => {
     socket.on('disconnect', () => {
         console.log('Client disconnected');
         removeSocketId(socket);
-    })
+    });
 
     socket.on('identifier', (data) => {
         let genereatedId = generateId();
         if (data === 'client') {
             clientIds.push({ socketId: socket.id, userId: genereatedId });
+            if (!controllingSocketId) {
+                controllingSocketId = socket.id;
+                socket.emit('canControl', true);
+            } else {
+                socket.emit('canControl', false);
+            }
         } else if (data === 'car') {
             carIds.push({ socketId: socket.id, userId: genereatedId });
         }
@@ -69,7 +92,9 @@ io.on('connection', (socket) => {
 
     socket.on('controlsInput', (data) => {
         console.log(data);
-        socket.broadcast.emit('controlsOutput', data);
+        if (socket.id === controllingSocketId) {
+            socket.broadcast.emit('controlsOutput', data);
+        }
         console.log('Sending controls to pi');
     });
 
