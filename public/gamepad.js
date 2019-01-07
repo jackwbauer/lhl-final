@@ -1,5 +1,3 @@
-// import { SSL_OP_ALL } from "constants";
-
 // https://w3c.github.io/gamepad/
 
 var hasGP = false; // has game pad
@@ -18,8 +16,16 @@ function checkGamepad() {
 $(document).ready(function () {
 
     const host = location.origin.replace(/^http/, 'ws');
-
     const socket = io(host);
+    
+    const $keyboardButton = $('#keyboardButton');
+    const $gamepadButton = $('#gamepadButton');
+    const $virtualJoystickButton = $('#virtualJoystickButton');
+    const img = $('#videoStream');
+
+    const urlCreator = window.URL || window.webkitURL;
+
+    $keyboardButton.addClass('active');
 
     function sendInput() {
         const input = {
@@ -61,7 +67,7 @@ $(document).ready(function () {
     });
 
     socket.on('playbackComplete', () => {
-        $playbackButton.text('Stop Playback');
+        $playbackButton.text('Start Playback');
     });
 
     socket.on('userId', (data) => {
@@ -79,33 +85,25 @@ $(document).ready(function () {
 
     img.on('dblclick', () => {
         img.toggleClass('fullScreen');
+        $keyboardButton.toggleClass('hidden');
+        $gamepadButton.toggleClass('hidden');
+        $recordButton.toggleClass('hidden');
+        $playbackButton.toggleClass('hidden');
+        $("#carId").toggleClass('hidden');
+        $("#gamepadPrompt").toggleClass('hidden');
+        $('carInfo').toggleClass('hidden');
     })
 
     function resetInput() {
         direction = 0;
         turn = 0;
         cameraRotation = 0;
-        output();
+        sendInput();
     }
 
     let direction = 0; // -1 for reverse to +1 for forward
     let turn = 0; // -1 for left to +1 for right
     let cameraRotation = 0; // -1 for left to +1 for right
-
-    function output() {
-        // $("#direction").text(`direction = ${direction}`);
-        // $("#turn").text(`turn = ${turn}`);
-        // $("#cameraRotation").text(`camera rotation = ${cameraRotation}`);
-        sendInput();
-        // logOutput();
-    }
-
-    function logOutput() {
-        console.clear();
-        console.log(`direction: ${direction}`);
-        console.log(`turn: ${turn}`);
-        console.log('keydown: ', keydown);
-    }
 
     const keys = [65, 87, 68, 83, 82, 37, 39];
     let keydown = {
@@ -117,11 +115,6 @@ $(document).ready(function () {
         '39': false, // right arrow
         '82': false, // r
     }
-
-    const $keyboardButton = $('#keyboardButton');
-    const $gamepadButton = $('#gamepadButton');
-    const $virtualJoystickButton = $('#virtualJoystickButton');
-    $keyboardButton.addClass('active');
 
     $keyboardButton.click(event => {
         resetInput();
@@ -153,7 +146,6 @@ $(document).ready(function () {
     $(window).keydown(event => {
         if (!useGP) {
             const key = event.which;
-
             if (keys.includes(key)) {
                 event.preventDefault();
                 if (!keydown[key]) {
@@ -182,8 +174,7 @@ $(document).ready(function () {
                             break;
                     }
                 }
-
-                output();
+                sendInput();
             }
         }
     });
@@ -214,8 +205,7 @@ $(document).ready(function () {
                         cameraRotation += -1;
                         break;
                 }
-
-                output();
+                sendInput();
             }
         }
     });
@@ -242,7 +232,7 @@ $(document).ready(function () {
                 } else {
                     cameraRotation = 0;
                 }
-                output();
+                sendInput();
             }
         }
 
@@ -267,15 +257,13 @@ $(document).ready(function () {
         //setup an interval for Chrome to check if controller connected
         var checkGP = window.setInterval(function () {
             if (navigator.getGamepads()[0]) {
-                if (!hasGP) $(window).trigger("gamepadconnected");
+                if (!hasGP) {
+                    $(window).trigger("gamepadconnected");
+                }
                 window.clearInterval(checkGP);
             }
         }, 500);
     }
-
-    ss(socket).on('videoStreamToBrowser', (stream) => {
-        console.log('Receiving video stream');
-    })
 
     /**
 * @author       Richard Davey <rich@photonstorm.com>
@@ -348,7 +336,7 @@ $(document).ready(function () {
                     direction = 0;
                     turn = 0;
                 }
-                output();
+                sendInput();
             }
 
         }
