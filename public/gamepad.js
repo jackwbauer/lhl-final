@@ -99,7 +99,7 @@ $(document).ready(function () {
 
     socket.on('userId', (data) => {
         userId = data;
-        $useId.text(`Your user id is ${userId}`);
+        $userId.text(`Your user id is ${userId}`);
     })
 
     socket.on('frame', (frame) => {
