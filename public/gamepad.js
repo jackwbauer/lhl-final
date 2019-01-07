@@ -22,7 +22,16 @@ $(document).ready(function () {
     const $gamepadButton = $('#gamepadButton');
     const $virtualJoystickButton = $('#virtualJoystickButton');
     const img = $('#videoStream');
+    const $recordButton = $('#recordControls');
+    const $playbackButton = $('#playbackControls');
+    const $carId = $('#carId');
+    const $gamepadPrompt = $("#gamepadPrompt");
+    const $carInfo = $('carInfo');
 
+    img.attr('src', 'https://dummyimage.com/640x480/000/ffffff&text=Car+Video');
+
+    let currentlyRecording = false;
+    let currentlyPlayingback = false;
     const urlCreator = window.URL || window.webkitURL;
 
     $keyboardButton.addClass('active');
@@ -35,12 +44,6 @@ $(document).ready(function () {
         };
         socket.emit('controlsInput', input);
     }
-
-    // recording controls
-    $recordButton = $('#recordControls');
-    $playbackButton = $('#playbackControls');
-    let currentlyRecording = false;
-    let currentlyPlayingback = false;
 
     $recordButton.on('click', () => {
         currentlyRecording = !currentlyRecording;
@@ -55,7 +58,6 @@ $(document).ready(function () {
         $playbackButton.text(buttonText);
         socket.emit('playbackControls', { currentlyPlayingback });
     });
-    // end of recording controls
 
     socket.on('carConnected', (data) => {
         console.log('car connected');
@@ -87,9 +89,9 @@ $(document).ready(function () {
         $gamepadButton.toggleClass('hidden');
         $recordButton.toggleClass('hidden');
         $playbackButton.toggleClass('hidden');
-        $("#carId").toggleClass('hidden');
-        $("#gamepadPrompt").toggleClass('hidden');
-        $('carInfo').toggleClass('hidden');
+        $carId.toggleClass('hidden');
+        $gamepadPrompt .toggleClass('hidden');
+        $carInfo.toggleClass('hidden');
     })
 
     function resetInput() {
