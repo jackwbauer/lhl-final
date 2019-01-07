@@ -21,18 +21,20 @@ $(document).ready(function () {
     const $keyboardButton = $('#keyboardButton');
     const $gamepadButton = $('#gamepadButton');
     const $virtualJoystickButton = $('#virtualJoystickButton');
-    const img = $('#videoStream');
+    const $img = $('#videoStream');
     const $recordButton = $('#recordControls');
     const $playbackButton = $('#playbackControls');
     const $carId = $('#carId');
     const $gamepadPrompt = $("#gamepadPrompt");
     const $carInfo = $('carInfo');
-
-    img.attr('src', 'https://dummyimage.com/640x480/000/ffffff&text=Car+Video');
+    const $userInfo = $('#userInfo');
 
     let currentlyRecording = false;
     let currentlyPlayingback = false;
     const urlCreator = window.URL || window.webkitURL;
+
+    // default image source
+    $img.attr('src', 'https://dummyimage.com/640x480/000/ffffff&text=Car+Video');
 
     $keyboardButton.addClass('active');
 
@@ -84,11 +86,11 @@ $(document).ready(function () {
         const arrayBufferView = new Uint8Array(frame);
         const blob = new Blob([arrayBufferView], { type: "image/jpeg" });
         const imageUrl = urlCreator.createObjectURL(blob);
-        img.attr('src', imageUrl);
+        $img.attr('src', imageUrl);
     });
 
-    img.on('dblclick', () => {
-        img.toggleClass('fullScreen');
+    $img.on('dblclick', () => {
+        $img.toggleClass('fullScreen');
         $keyboardButton.toggleClass('hidden');
         $gamepadButton.toggleClass('hidden');
         $recordButton.toggleClass('hidden');
@@ -96,6 +98,7 @@ $(document).ready(function () {
         $carId.toggleClass('hidden');
         $gamepadPrompt .toggleClass('hidden');
         $carInfo.toggleClass('hidden');
+        $userInfo.toggleClass('hidden');
     })
 
     function resetInput() {
