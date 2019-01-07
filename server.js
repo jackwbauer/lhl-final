@@ -23,7 +23,7 @@ let carIds = []
 function isIdInUse(id, idArray) {
     let found = idArray.find((element) => {
         return element.userId == id;
-    })
+    });
     return found ? true : false;
 }
 
