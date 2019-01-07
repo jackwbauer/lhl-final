@@ -64,13 +64,17 @@ $(document).ready(function () {
         $playbackButton.text('Stop Playback');
     });
 
+    socket.on('userId', (data) => {
+        $('#userId').text(`Your user id is ${data}`);
+    })
+
     const img = $('#videoStream');
     const urlCreator = window.URL || window.webkitURL;
     socket.on('frame', (frame) => {
         const arrayBufferView = new Uint8Array(frame);
         const blob = new Blob([arrayBufferView], { type: "image/jpeg" });
         const imageUrl = urlCreator.createObjectURL(blob);
-        img.src = imageUrl;
+        img.attr('src', imageUrl);
     });
 
     img.on('dblclick', () => {

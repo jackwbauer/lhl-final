@@ -47,7 +47,8 @@ function removeSocketId(socket) {
 
 io.on('connection', (socket) => {
     console.log('Connection established');
-    generateId(socket);
+    // generateId(socket);
+    io.sockets.to(socket.id).emit('userId', generateId(socket));
     socket.on('disconnect', () => {
         console.log('Client disconnected');
         removeSocketId(socket);
