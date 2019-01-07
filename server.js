@@ -57,6 +57,7 @@ function transferControl(userId) {
         });
         controllingSocketId = socketId ? socketId : '';
     }
+    console.log('controlling socket id:', controllingSocketId);
 }
 
 function removeSocketId(socket) {
@@ -98,6 +99,7 @@ io.on('connection', (socket) => {
     })
 
     socket.on('transferControl', (data) => {
+        console.log(`transferring control to ${data}`);
         transferControl(data);
     })
 
