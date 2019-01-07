@@ -94,7 +94,7 @@ $(document).ready(function () {
 
     socket.on('connectedUsers', (data) => {
         // data will feed a dropdown
-
+        console.log(data);
     });
 
     socket.on('userId', (data) => {
