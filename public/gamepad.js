@@ -17,7 +17,7 @@ $(document).ready(function () {
 
     const host = location.origin.replace(/^http/, 'ws');
     const socket = io(host);
-    
+
     const $keyboardButton = $('#keyboardButton');
     const $gamepadButton = $('#gamepadButton');
     const $virtualJoystickButton = $('#virtualJoystickButton');
@@ -74,8 +74,6 @@ $(document).ready(function () {
         $('#userId').text(`Your user id is ${data}`);
     })
 
-    const img = $('#videoStream');
-    const urlCreator = window.URL || window.webkitURL;
     socket.on('frame', (frame) => {
         const arrayBufferView = new Uint8Array(frame);
         const blob = new Blob([arrayBufferView], { type: "image/jpeg" });
