@@ -80,7 +80,6 @@ io.on('connection', (socket) => {
                 return client.userId;
             }
         }));
-        socket.broadcast.emit('connectedUsers', clientIds.map((client) => client.userId));
     });
 
     socket.on('identifier', (data) => {
@@ -98,6 +97,7 @@ io.on('connection', (socket) => {
             carIds.push({ socketId: socket.id, userId: genereatedId });
         }
         socket.emit('userId', genereatedId);
+        socket.broadcast.emit('connectedUsers', clientIds.map((client) => client.userId));
     })
 
     socket.on('transferControl', (data) => {
