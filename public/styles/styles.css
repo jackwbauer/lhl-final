@@ -1,15 +1,21 @@
 body {
-    background-image: linear-gradient(to bottom right, #BF6CFF, #F790FF, #CC79E8);
+    background-image: linear-gradient(to bottom right, #DBA9E8, #E4C7FF, #FFBAF6);
     height: 100vh;
+    font-family: 'PT Serif', serif;
+}
+
+.heading {
+    font-family: 'Exo', sans-serif;
 }
 
 .fullScreen {
-    height: 96vh;
+    height: 95vh;
     width: 98vw;
 }
 
 .hidden {
     display: none;
+    margin-bottom: 0 !important;
 }
 
 .videoStream {
