@@ -3,10 +3,23 @@
 }
 
 .fullScreen {
-    height: 97vh;
+    height: 96vh;
     width: 98vw;
 }
 
 .hidden {
     display: none;
+}
+
+.videoStream {
+    position: absolute;
+    width: 640px;
+    height: 480px;
+    z-index: -1;
+}
+  
+.touchControls {
+    position: absolute;
+    width: 640px;
+    height: 480px;
 }

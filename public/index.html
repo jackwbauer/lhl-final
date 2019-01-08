@@ -4,41 +4,49 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
 
     <title>Car Pi</title>
 
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
-    <script src="/socket.io/socket.io.js"></script>
+    <script type="text/javascript" src="/socket.io/socket.io.js"></script>
     <script type="text/javascript" src="./gamepad.js"></script>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" />
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
-        crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" />
     <link rel="stylesheet" type="text/css" href="styles/styles.css" />
 </head>
 
 <body>
     <div class="container-fluid">
-        <div id="gamepadPrompt"></div>
-        <div id="userInfo">
+
+        <div class="row">
+            <div id="gamepadPrompt"></div>
+        </div>
+
+        <div class="row" id="userInfo">
             <h2 id=userId></h2>
         </div>
-        <div id="carInfo">
+
+        <div class="row" id="carInfo">
             <h2 id="carId">No car connected</h2>
         </div>
-        <div id="inputSwitch" class="btn-group" role="group" aria-label="Basic example">
-            <button id="keyboardButton" type="button" class="btn btn-secondary">Keyboard</button>
-            <button id="gamepadButton" type="button" class="btn btn-secondary">Gamepad</button>
+
+        <div class="row">
+            <div id="inputSwitch" class="btn-group" role="group" aria-label="input switch">
+                <button id="keyboardButton" type="button" class="btn btn-secondary">Keyboard</button>
+                <button id="gamepadButton" type="button" class="btn btn-secondary">Gamepad</button>
+            </div>
+            <div class="btn-group" role="group" aria-label="recording controls">
+                <button id="recordControls" type="button" class="btn btn-secondary">Start Recording</button>
+                <button id="playbackControls" type="button" class="btn btn-secondary">Start Playback</button>
+            </div>
         </div>
-        <div class="btn-group" role="group" aria-label="recording controls">
-            <button id="recordControls" type="button" class="btn btn-secondary">Start Recording</button>
-            <button id="playbackControls" type="button" class="btn btn-secondary">Start Playback</button>
-        </div>
-        <div>
+
+        <div class="row">
             <img id="videoStream" src="">
         </div>
+
     </div> <!-- .container-fluid -->
 </body>
 
