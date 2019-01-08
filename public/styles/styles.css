@@ -10,7 +10,6 @@ body {
 
 .image-container {
     position: relative;
-    /* text-align: center; */
 }
 
 .red-text {
@@ -45,6 +44,10 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+}
+
+.large-font {
+    font-size: 4rem;
 }
 
 #videoStream {
