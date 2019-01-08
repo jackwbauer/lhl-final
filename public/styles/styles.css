@@ -1,5 +1,6 @@
-#videoStream {
-    transform: rotate(180deg);
+body {
+    background-image: linear-gradient(to bottom right, #BF6CFF, #F790FF, #CC79E8);
+    height: 100vh;
 }
 
 .fullScreen {
@@ -22,4 +23,8 @@
     position: absolute;
     width: 640px;
     height: 480px;
+}
+
+#videoStream {
+    transform: rotate(180deg);
 }
