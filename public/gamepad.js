@@ -42,7 +42,7 @@ $(document).ready(function () {
     const keys = [65, 87, 68, 83, 82, 37, 39];
 
     // default image source
-    $img.attr('src', 'https://dummyimage.com/640x480/000/ffffff');
+    $img.attr('src', 'https://dummyimage.com/640x480/000/ffffff?text=%20');
 
     $keyboardButton.addClass('active');
 
