@@ -1,5 +1,5 @@
 body {
-    background-image: linear-gradient(to bottom right, #DBA9E8, #E4C7FF, #FFBAF6);
+    background-image: linear-gradient(to bottom right, #88959D, #C5D4DB, #E0ECE0);
     height: 100vh;
     font-family: 'PT Serif', serif;
 }
@@ -47,7 +47,11 @@ body {
 }
 
 .large-font {
-    font-size: 4rem;
+    font-size: 3rem;
+}
+
+.extra-large-font {
+    font-size: 6rem;
 }
 
 #videoStream {
