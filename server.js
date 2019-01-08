@@ -47,7 +47,7 @@ function generateId(identifier) {
 }
 
 function transferControl(userId) {
-    if(!userId) {
+    if(!userId && clientIds[0]) {
         controllingSocketId = clientIds[0].socketId;
     } else {
         let socketId = clientIds.find((client) => {

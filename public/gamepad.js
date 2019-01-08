@@ -36,6 +36,10 @@ $(document).ready(function () {
     let userId;
     let controllingUser;
     const urlCreator = window.URL || window.webkitURL;
+    let direction = 0; // -1 for reverse to +1 for forward
+    let turn = 0; // -1 for left to +1 for right
+    let cameraRotation = 0; // -1 for left to +1 for right
+    const keys = [65, 87, 68, 83, 82, 37, 39];
 
     // default image source
     $img.attr('src', 'https://dummyimage.com/640x480/000/ffffff&text=Car+Video');
@@ -129,11 +133,6 @@ $(document).ready(function () {
         sendInput();
     }
 
-    let direction = 0; // -1 for reverse to +1 for forward
-    let turn = 0; // -1 for left to +1 for right
-    let cameraRotation = 0; // -1 for left to +1 for right
-
-    const keys = [65, 87, 68, 83, 82, 37, 39];
     let keydown = {
         '87': false, // w
         '83': false, // s
