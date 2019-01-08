@@ -61,11 +61,6 @@ function transferControl(userId) {
 }
 
 function removeSocketId(socket) {
-    if(controllingSocketId === socket.id) {
-        console.log('controlling user has disconnected');
-        transferControl();
-        io.sockets.to(controllingSocketId).emit('canControl', true);
-    }
     clientIds = clientIds.filter((element) => element.socketId !== socket.id);
 }
 
@@ -75,6 +70,11 @@ io.on('connection', (socket) => {
     socket.on('disconnect', () => {
         console.log('Client disconnected');
         removeSocketId(socket);
+        if (controllingSocketId === socket.id) {
+            console.log('controlling user has disconnected');
+            transferControl();
+            io.sockets.to(controllingSocketId).emit('canControl', true);
+        }
         socket.broadcast.emit('controllingUser', clientIds.find((client) => {
             if(client.socketId === controllingSocketId) {
                 return client.userId;
