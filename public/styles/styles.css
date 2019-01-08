@@ -8,6 +8,15 @@ body {
     font-family: 'Exo', sans-serif;
 }
 
+.image-container {
+    position: relative;
+    /* text-align: center; */
+}
+
+.red-text {
+    color: red;
+}
+
 .fullScreen {
     height: 95vh;
     width: 98vw;
@@ -29,6 +38,13 @@ body {
     position: absolute;
     width: 640px;
     height: 480px;
+}
+
+.centered {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 #videoStream {

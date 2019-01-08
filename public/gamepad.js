@@ -29,6 +29,7 @@ $(document).ready(function () {
     const $carInfo = $('carInfo');
     const $userInfo = $('#userInfo');
     const $userId = $('#userId');
+    const $obstruction = $('#obstruction');
 
     let currentlyRecording = false;
     let currentlyPlayingback = false;
@@ -87,6 +88,11 @@ $(document).ready(function () {
 
     socket.on('newDistance', (data) => {
         // $("#carDistance").text(`${Math.floor(data.distance)}cm to nearest obstruction`);
+        if (data.distance < 30 && data.distance > 10) {
+            $obstruction.removeClass('hidden');
+        } else {
+            $obstruction.addClass('hidden');
+        }
     });
 
     socket.on('playbackComplete', () => {
