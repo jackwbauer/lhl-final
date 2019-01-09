@@ -55,9 +55,7 @@ $(document).ready(function () {
             turn,
             cameraRotation
         };
-        if (canControl) {
-            socket.emit('controlsInput', input);
-        }
+        socket.emit('controlsInput', input);
     }
 
     $recordButton.on('click', () => {

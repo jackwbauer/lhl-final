@@ -50,6 +50,7 @@ function transferControl(userId) {
     if(!userId && clientIds[0]) {
         controllingSocketId = clientIds[0].socketId;
     } else {
+        controllingSocketId = '';
         clientIds.forEach((client) => {
             if (client.userId === userId) {
                 controllingSocketId = client.socketId;
@@ -57,8 +58,7 @@ function transferControl(userId) {
                 return;
             }
         });
-        controllingSocketId = '';
-        console.log('No clients connected');
+        if(!controllingSocketId) console.log('No clients connected');
     }
 }
 
