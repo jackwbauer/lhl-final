@@ -123,6 +123,8 @@ io.on('connection', (socket) => {
 
     socket.on('controlsInput', (data) => {
         // console.log(data);
+        console.log(`socket.id == ${socket.id}`);
+        console.log(`controllingSocketId == ${controllingSocketId}`);
         if (socket.id === controllingSocketId) {
             socket.broadcast.emit('controlsOutput', data);
             console.log('Sending controls to pi');
