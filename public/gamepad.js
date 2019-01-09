@@ -106,6 +106,7 @@ $(document).ready(function () {
 
     function updateSelectDropdown(data) {
         data.forEach((user) => {
+            $connectedUsers.empty();
             $connectedUsers.append(`<option>${user}</option>`);
         });
     }
