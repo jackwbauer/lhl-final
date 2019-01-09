@@ -110,6 +110,7 @@ io.on('connection', (socket) => {
         clientIds.forEach((client) => {
             if (client.userId === data) {
                 controllingSocketId = client.socketId;
+                console.log(`new controllingSocketId == ${controllingSocketId}`);
             }
         });
         socket.broadcast.emit('controllingUser', data);
@@ -121,11 +122,11 @@ io.on('connection', (socket) => {
     });
 
     socket.on('controlsInput', (data) => {
-        console.log(data);
+        // console.log(data);
         if (socket.id === controllingSocketId) {
             socket.broadcast.emit('controlsOutput', data);
+            console.log('Sending controls to pi');
         }
-        console.log('Sending controls to pi');
     });
 
     socket.on('carConnected', (data) => {
