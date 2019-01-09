@@ -106,11 +106,9 @@ $(document).ready(function () {
     socket.on('connectedUsers', (data) => {
         // data will feed a dropdown
         // console.log(data);
-        let optionString = '';
         data.forEach((user) => {
-            optionString += `<option>${user}</option>`;
+            $connectedUsers.append(`<option>${user}</option>`);
         });
-        $connectedUsers.text(optionString);
     });
 
     socket.on('userId', (data) => {
