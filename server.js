@@ -50,9 +50,10 @@ function transferControl(userId) {
     if(!userId && clientIds[0]) {
         controllingSocketId = clientIds[0].socketId;
     } else {
-        let socketId = clientIds.find((client) => {
+        let socketId;
+        clientIds.forEach((client) => {
             if (client.userId === userId) {
-                return client.socketId;
+                socketId = client.socketId;
             }
         });
         controllingSocketId = socketId ? socketId : '';
