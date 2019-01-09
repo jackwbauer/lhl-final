@@ -118,6 +118,7 @@ $(document).ready(function () {
     }
 
     $connectedUsers.change(() => {
+        console.log($connectedUsers.val());
         socket.emit('transferControl', $connectedUsers.val());
     });
 

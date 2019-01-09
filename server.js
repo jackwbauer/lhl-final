@@ -50,19 +50,21 @@ function transferControl(userId) {
     if(!userId && clientIds[0]) {
         controllingSocketId = clientIds[0].socketId;
     } else {
-        let socketId;
         clientIds.forEach((client) => {
             if (client.userId === userId) {
-                socketId = client.socketId;
+                controllingSocketId = client.socketId;
+                console.log('controlling socket id:', controllingSocketId);
+                return;
             }
         });
-        controllingSocketId = socketId ? socketId : '';
+        controllingSocketId = '';
+        console.log('No clients connected');
     }
-    console.log('controlling socket id:', controllingSocketId);
 }
 
 function removeSocketId(socket) {
     clientIds = clientIds.filter((element) => element.socketId !== socket.id);
+    console.log(`removed socket from clientIds: ${clientIds}`);
 }
 
 io.on('connection', (socket) => {
@@ -87,6 +89,7 @@ io.on('connection', (socket) => {
         let genereatedId = generateId();
         if (data === 'client') {
             clientIds.push({ socketId: socket.id, userId: genereatedId });
+            console.log(`client added to clientIds: ${clientIds}`);
             if (!controllingSocketId) {
                 console.log('new controlling user', controllingSocketId);
                 controllingSocketId = socket.id;
