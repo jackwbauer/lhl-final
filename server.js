@@ -66,7 +66,7 @@ function removeSocketId(socket) {
 
 io.on('connection', (socket) => {
     console.log('Connection established');
-    socket.broadcast.emit('connectedUsers', clientIds.map((client) => client.userId));
+    // socket.broadcast.emit('connectedUsers', clientIds.map((client) => client.userId));
     socket.on('disconnect', () => {
         console.log('Client disconnected');
         removeSocketId(socket);
@@ -98,6 +98,12 @@ io.on('connection', (socket) => {
         }
         socket.emit('userId', genereatedId);
         socket.broadcast.emit('connectedUsers', clientIds.map((client) => client.userId));
+        socket.emit('connectedUsers', clientIds.map((client) => client.userId));
+        socket.emit('controllingUser', clientIds.find((client) => {
+            if(client.socketId === controllingSocketId) {
+                return client.userId;
+            }
+        }));
     })
 
     socket.on('transferControl', (data) => {
