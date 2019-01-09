@@ -31,6 +31,7 @@ $(document).ready(function () {
     const $userId = $('#userId');
     const $obstruction = $('#obstruction');
     const $connectedUsers = $('#connectedUsers');
+    const $spectating = $('#spectating');
 
     let currentlyRecording = false;
     let currentlyPlayingback = false;
@@ -101,9 +102,16 @@ $(document).ready(function () {
     socket.on('controllingUser', (data) => {
         controllingUser = data;
         if (controllingUser === userId && !fullScreen) {
-            $connectedUsers.removeClass('hidden');
+            if(!fullScreen) {
+                $connectedUsers.removeClass('hidden');
+            } else {
+                $connectedUsers.addClass('hidden');
+            }
+            $spectating.addClass('hidden');
         } else {
             $connectedUsers.addClass('hidden');
+            $spectating.text(`Spectation ${controllingUser}`);
+            $spectating.removeClass('hidden');
         }
         $connectedUsers.val(data);
     });

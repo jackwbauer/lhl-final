@@ -39,6 +39,13 @@ body {
     height: 480px;
 }
 
+.top-left {
+    position: absolute;
+    top: 8px;
+    left: 16px;
+  }
+  
+
 .centered {
     position: absolute;
     top: 50%;
