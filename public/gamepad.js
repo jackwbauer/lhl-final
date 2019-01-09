@@ -101,19 +101,23 @@ $(document).ready(function () {
 
     socket.on('controllingUser', (data) => {
         controllingUser = data;
+        $connectedUsers.val(data);
     });
 
-    socket.on('connectedUsers', (data) => {
-        // data will feed a dropdown
-        // console.log(data);
+    function updateSelectDropdown(data) {
         data.forEach((user) => {
             $connectedUsers.append(`<option>${user}</option>`);
         });
+    }
+
+    socket.on('connectedUsers', (data) => {
+        updateSelectDropdown(data);
     });
 
     socket.on('userId', (data) => {
         userId = data;
         $userId.text(`Your user id is ${userId}`);
+        updateSelectDropdown([data]);
     })
 
     socket.on('frame', (frame) => {
