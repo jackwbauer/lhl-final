@@ -57,3 +57,7 @@ body {
 #videoStream {
     transform: rotate(180deg);
 }
+
+#connectedUsers {
+    display: inline-block;
+}

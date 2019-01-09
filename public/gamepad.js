@@ -30,6 +30,7 @@ $(document).ready(function () {
     const $userInfo = $('#userInfo');
     const $userId = $('#userId');
     const $obstruction = $('#obstruction');
+    const $connectedUsers = $('#connectedUsers');
 
     let currentlyRecording = false;
     let currentlyPlayingback = false;
@@ -40,7 +41,7 @@ $(document).ready(function () {
     let direction = 0; // -1 for reverse to +1 for forward
     let turn = 0; // -1 for left to +1 for right
     let cameraRotation = 0; // -1 for left to +1 for right
-    const keys = [65, 87, 68, 83, 82, 37, 39];
+    const keys = [65, 87, 68, 83, 37, 39];
 
     // default image source
     $img.attr('src', 'https://dummyimage.com/640x480/000/ffffff?text=%20');
@@ -87,8 +88,7 @@ $(document).ready(function () {
     });
 
     socket.on('newDistance', (data) => {
-        // $("#carDistance").text(`${Math.floor(data.distance)}cm to nearest obstruction`);
-        if (data.distance < 30 && data.distance > 10) {
+        if (data.obstructed) {
             $obstruction.removeClass('hidden');
         } else {
             $obstruction.addClass('hidden');
@@ -105,7 +105,12 @@ $(document).ready(function () {
 
     socket.on('connectedUsers', (data) => {
         // data will feed a dropdown
-        console.log(data);
+        // console.log(data);
+        let optionString = '';
+        data.forEach((user) => {
+            optionString += `<option>${user}</option>`;
+        });
+        $connectedUsers.text(optionString);
     });
 
     socket.on('userId', (data) => {
@@ -147,7 +152,6 @@ $(document).ready(function () {
         '68': false, // d
         '37': false, // left arrow
         '39': false, // right arrow
-        '82': false, // r
     }
 
     $keyboardButton.click(event => {
@@ -193,9 +197,6 @@ $(document).ready(function () {
                             break;
                         case 83: // s
                             direction += -1;
-                            break;
-                        case 82: // r
-                            cameraRotation = 0;
                             break;
                         case 65: // a
                             turn += -1; // left
