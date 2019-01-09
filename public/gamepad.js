@@ -100,7 +100,7 @@ $(document).ready(function () {
     });
 
     socket.on('controllingUser', (data) => {
-        controllingUser = data;
+        controllingUser = data.userId;
         console.log(`controllingUser data == ${data}`);
         if (controllingUser === userId) {
             if(!fullScreen) {
