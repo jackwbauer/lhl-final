@@ -150,7 +150,7 @@ $(document).ready(function () {
         $gamepadPrompt .toggleClass('hidden');
         $carInfo.toggleClass('hidden');
         $userInfo.toggleClass('hidden');
-        $connectedUsers.toggleClass('hidden');
+        // $connectedUsers.toggleClass('hidden');
     })
 
     function resetInput() {
