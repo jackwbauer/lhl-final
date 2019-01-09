@@ -104,12 +104,21 @@ io.on('connection', (socket) => {
                 return client.userId;
             }
         }));
-    })
+    });
+
+    socket.on('transferControl', (data) => {
+        clientIds.forEach((client) => {
+            if (client.userId === data) {
+                controllingSocketId = client.socketId;
+            }
+        });
+        socket.broadcast.emit('controllingUser', data);
+    });
 
     socket.on('transferControl', (data) => {
         console.log(`transferring control to ${data}`);
         transferControl(data);
-    })
+    });
 
     socket.on('controlsInput', (data) => {
         console.log(data);

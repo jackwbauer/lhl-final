@@ -35,6 +35,7 @@ $(document).ready(function () {
     let currentlyRecording = false;
     let currentlyPlayingback = false;
     let canControl = false;
+    let fullScreen = false;
     let userId;
     let controllingUser;
     const urlCreator = window.URL || window.webkitURL;
@@ -84,7 +85,7 @@ $(document).ready(function () {
 
     socket.on('carConnected', (data) => {
         console.log('car connected');
-        $("#carId").text(`connected to car #${data.carId}`);
+        $("#carId").text(`Connected to car #${data.carId}`);
     });
 
     socket.on('newDistance', (data) => {
@@ -101,6 +102,11 @@ $(document).ready(function () {
 
     socket.on('controllingUser', (data) => {
         controllingUser = data;
+        if (controllingUser === userId && !fullScreen) {
+            $connectedUsers.removeClass('hidden');
+        } else {
+            $connectedUsers.addClass('hidden');
+        }
         $connectedUsers.val(data);
     });
 
@@ -110,6 +116,10 @@ $(document).ready(function () {
             $connectedUsers.append(`<option>${user}</option>`);
         });
     }
+
+    $connectedUsers.change(() => {
+        socket.emit('transferControl', $connectedUsers.val());
+    });
 
     socket.on('connectedUsers', (data) => {
         updateSelectDropdown(data);
@@ -129,6 +139,7 @@ $(document).ready(function () {
     });
 
     $img.on('dblclick', () => {
+        fullScreen = !fullScreen;
         $img.toggleClass('fullScreen');
         $obstruction.toggleClass('large-font').toggleClass('extra-large-font');
         $keyboardButton.toggleClass('hidden');
@@ -139,6 +150,7 @@ $(document).ready(function () {
         $gamepadPrompt .toggleClass('hidden');
         $carInfo.toggleClass('hidden');
         $userInfo.toggleClass('hidden');
+        $connectedUsers.toggleClass('hidden');
     })
 
     function resetInput() {
