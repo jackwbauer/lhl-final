@@ -110,7 +110,7 @@ $(document).ready(function () {
             $spectating.addClass('hidden');
         } else {
             $connectedUsers.addClass('hidden');
-            $spectating.text(`Spectation ${controllingUser}`);
+            $spectating.text(`Spectating`);
             $spectating.removeClass('hidden');
         }
         $connectedUsers.val(data);
