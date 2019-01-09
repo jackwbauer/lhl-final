@@ -22,7 +22,7 @@ body {
 }
 
 .hidden {
-    display: none;
+    display: none !important;
     margin-bottom: 0 !important;
 }
 
