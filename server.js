@@ -110,6 +110,14 @@ io.on('connection', (socket) => {
         }));
     });
 
+    socket.on('routes', (data) => {
+        socket.broadcast.emit('routes', data);
+    });
+
+    socket.on('playbackRoute', (data) => {
+        socket.broadcast.emit('playbackRoute', data);
+    });
+
     socket.on('transferControl', (data) => {
         clientIds.forEach((client) => {
             if (client.userId === data) {

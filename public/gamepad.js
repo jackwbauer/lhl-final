@@ -32,6 +32,7 @@ $(document).ready(function () {
     const $obstruction = $('#obstruction');
     const $connectedUsers = $('#connectedUsers');
     const $spectating = $('#spectating');
+    const $routes = $('#routes');
 
     let currentlyRecording = false;
     let currentlyPlayingback = false;
@@ -80,6 +81,16 @@ $(document).ready(function () {
 
     socket.on('connect', () => {
         socket.emit('identifier', 'client');
+    });
+
+    socket.on('routes', (data) => {
+        data.forEach((route) => {
+            $routes.append(`<option>${route}</option>`);
+        });
+    });
+
+    $routes.change(() => {
+        socket.emit('playbackRoute', $routes.val());
     });
 
     socket.on('carConnected', (data) => {
