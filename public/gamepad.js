@@ -148,7 +148,12 @@ $(document).ready(function () {
 
     $img.on('dblclick', () => {
         fullScreen = !fullScreen;
-        $img.toggleClass('fullScreen');
+        // $img.toggleClass('fullScreen');
+        if (fullScreen) {
+            $img.requestFullscreen();
+        } else {
+            Document.exitFullscreen();
+        }
         $obstruction.toggleClass('large-font').toggleClass('extra-large-font');
         $keyboardButton.toggleClass('hidden');
         $gamepadButton.toggleClass('hidden');
