@@ -148,12 +148,7 @@ $(document).ready(function () {
 
     $img.on('dblclick', () => {
         fullScreen = !fullScreen;
-        // $img.toggleClass('fullScreen');
-        if (fullScreen) {
-            $img.requestFullscreen();
-        } else {
-            Document.exitFullscreen();
-        }
+        $img.toggleClass('fullScreen');
         $obstruction.toggleClass('large-font').toggleClass('extra-large-font');
         $keyboardButton.toggleClass('hidden');
         $gamepadButton.toggleClass('hidden');
@@ -163,7 +158,6 @@ $(document).ready(function () {
         $gamepadPrompt .toggleClass('hidden');
         $carInfo.toggleClass('hidden');
         $userInfo.toggleClass('hidden');
-        // $connectedUsers.toggleClass('hidden');
     })
 
     function resetInput() {
