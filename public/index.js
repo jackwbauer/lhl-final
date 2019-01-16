@@ -1,5 +1,3 @@
-// https://w3c.github.io/gamepad/
-
 var hasGP = false; // has game pad
 var useGP = false; // false uses keyboard input, true uses controller input
 var useTouch = false; // true uses virtual joystick touch input
@@ -32,7 +30,6 @@ $(document).ready(function () {
     const $obstruction = $('#obstruction');
     const $connectedUsers = $('#connectedUsers');
     const $spectating = $('#spectating');
-    // const $routes = $('#routes');
 
     let currentlyRecording = false;
     let currentlyPlayingback = false;
@@ -50,6 +47,7 @@ $(document).ready(function () {
     $img.attr('src', 'https://dummyimage.com/640x480/000/ffffff?text=%20');
 
     $keyboardButton.addClass('active');
+    
 
     function sendInput() {
         const input = {
@@ -58,6 +56,13 @@ $(document).ready(function () {
             cameraRotation
         };
         socket.emit('controlsInput', input);
+    }
+    
+    function updateSelectDropdown(data) {
+        $connectedUsers.empty();
+        data.forEach((user) => {
+            $connectedUsers.append(`<option>${user}</option>`);
+        });
     }
 
     $recordButton.on('click', () => {
@@ -82,16 +87,6 @@ $(document).ready(function () {
     socket.on('connect', () => {
         socket.emit('identifier', 'client');
     });
-
-    // socket.on('routes', (data) => {
-    //     data.forEach((route) => {
-    //         $routes.append(`<option>${route}</option>`);
-    //     });
-    // });
-
-    // $routes.change(() => {
-    //     socket.emit('playbackRoute', $routes.val());
-    // });
 
     socket.on('carConnected', (data) => {
         console.log('car connected');
@@ -127,13 +122,6 @@ $(document).ready(function () {
         }
         $connectedUsers.val(data);
     });
-
-    function updateSelectDropdown(data) {
-        $connectedUsers.empty();
-        data.forEach((user) => {
-            $connectedUsers.append(`<option>${user}</option>`);
-        });
-    }
 
     $connectedUsers.change(() => {
         console.log($connectedUsers.val());
