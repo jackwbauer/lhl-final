@@ -15,7 +15,10 @@ app.get('/', (request, response) => {
     response.redirect('./public/index.html');
 });
 
-let controllingSocketId = '';
+let controllingId = {
+    userId: '',
+    socketId: ''
+};
 
 let clientIds = [];
 let carIds = []
@@ -49,17 +52,18 @@ function generateId(identifier) {
 
 function transferControl(userId) {
     if(!userId && clientIds[0]) {
-        controllingSocketId = clientIds[0].socketId;
+        controllingId = clientIds[0].socketId;
     } else {
-        controllingSocketId = '';
+        controllingId.userId = '';
+        controllingId.socketId = '';
         clientIds.forEach((client) => {
             if (client.userId === userId) {
-                controllingSocketId = client.socketId;
-                console.log('controlling socket id:', controllingSocketId);
+                controllingId = client.socketId;
+                console.log('controlling socket id:', controllingId);
                 return;
             }
         });
-        if(!controllingSocketId) console.log('No clients connected');
+        if(!controllingId) console.log('No clients connected');
     }
 }
 
@@ -73,27 +77,27 @@ io.on('connection', (socket) => {
     socket.on('disconnect', () => {
         console.log('Client disconnected');
         removeSocketId(socket);
-        if (controllingSocketId === socket.id) {
+        if (controllingId.socketId === socket.id) {
             console.log('controlling user has disconnected');
             transferControl();
-            io.sockets.to(controllingSocketId).emit('canControl', true);
+            io.sockets.to(controllingId.socketId).emit('canControl', true);
         }
-        socket.broadcast.emit('controllingUser', clientIds.find((client) => {
-            if(client.socketId === controllingSocketId) {
-                return client.userId;
-            }
-        }));
+        socket.broadcast.emit('controllingUser', controllingId.userId);
     });
 
     //connection has identied itself as a client browser or a car
     socket.on('identifier', (data) => {
         let genereatedId = generateId();
         if (data === 'client') {
+            const client = {
+                userId: genereatedId,
+                socketId: socket.id
+            }
             clientIds.push({ socketId: socket.id, userId: genereatedId });
-            console.log(`client added to clientIds: ${clientIds}`);
-            if (!controllingSocketId) {
-                console.log('new controlling user', controllingSocketId);
-                controllingSocketId = socket.id;
+            console.log(`Client added to clientIds. ${clientIds.length} connected`);
+            if (!controllingId.socketId) {
+                controllingId = client;
+                console.log(`New controlling user: ${controllingId.userId}`);
                 socket.emit('canControl', true);
             } else {
                 socket.emit('canControl', false);
@@ -104,11 +108,7 @@ io.on('connection', (socket) => {
         socket.emit('userId', genereatedId);
         socket.broadcast.emit('connectedUsers', clientIds.map((client) => client.userId));
         socket.emit('connectedUsers', clientIds.map((client) => client.userId));
-        socket.emit('controllingUser', clientIds.find((client) => {
-            if(client.socketId === controllingSocketId) {
-                return client.userId;
-            }
-        }));
+        socket.emit('controllingUser', controllingId.userId);
     });
 
     socket.on('routes', (data) => {
@@ -122,12 +122,17 @@ io.on('connection', (socket) => {
 
     //controlling client has chosed another client ID to control the car
     socket.on('transferControl', (data) => {
-        clientIds.forEach((client) => {
-            if (client.userId === data) {
-                controllingSocketId = client.socketId;
-                console.log(`new controllingSocketId == ${controllingSocketId}`);
-            }
+        // clientIds.forEach((client) => {
+        //     if (client.userId === data) {
+        //         controllingId = client.socketId;
+        //         console.log(`New controlling socket ID: ${controllingId}`);
+        //     }
+        // });
+        let user = clientIds.find((client) => {
+            return client.userId === data;
         });
+        controllingId = user;
+        console.log(`New controlling user: ${controllingId.userId}`)
         socket.broadcast.emit('controllingUser', data);
     });
 
@@ -139,7 +144,7 @@ io.on('connection', (socket) => {
 
     // repeats controls from client to car; only the controlling user's inputs will be repeated
     socket.on('controlsInput', (data) => {
-        if (socket.id === controllingSocketId) {
+        if (socket.id === controllingId.socketId) {
             socket.broadcast.emit('controlsOutput', data);
         }
     });

@@ -106,8 +106,8 @@ $(document).ready(function () {
     });
 
     socket.on('controllingUser', (data) => {
-        controllingUser = data.userId;
-        console.log(`controllingUser data == ${data}`);
+        controllingUser = data;
+        console.log(`ControllingUser data: ${data}`);
         if (controllingUser === userId) {
             if(!fullScreen) {
                 $connectedUsers.removeClass('hidden');
